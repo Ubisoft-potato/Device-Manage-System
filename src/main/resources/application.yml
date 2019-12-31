@@ -1,2 +1,17 @@
 server:
   port: 8080
+spring:
+  # mysql Config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    password:
+    username:
+  # redis config
+  redis:
+    database:
+    host:
+    jedis:
+      pool:
+        max-active: 8
+        min-idle: 0
