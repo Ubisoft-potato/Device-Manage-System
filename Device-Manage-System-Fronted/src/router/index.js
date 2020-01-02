@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import AppIndex from "@/components/AppIndex"
 import Login from "@/components/Login"
+import Admin from "@/components/admin/Admin.vue"
 
 Vue.use(Router)
 
@@ -11,13 +11,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: "Login",
-      component: Login
+      name: "Index",
+      redirect: '/index'
     },
     {
       path: '/index',
       name: 'AppIndex',
-      component: AppIndex
+      component: AppIndex,
+      children: [
+        {
+        path: '/admin',
+        name: 'admin',
+        component: Admin
+      }
+      ]
     },
     {
       path: '/login',
