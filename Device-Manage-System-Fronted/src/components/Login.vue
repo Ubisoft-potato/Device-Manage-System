@@ -1,11 +1,12 @@
 <template>
+
   <div>
     <el-image
       style="width: 400px; height: 170px"
       :src="require('../assets/cust.jpeg')"
       fit="contain"/>
     <el-form class="login-container" label-position="left"
-             label-width="0px">
+             label-width="0px" v-loading="loading" element-loading-text="登录中...">
       <h3 class="login_title">系统登录</h3>
       <el-form-item>
         <el-input type="text" v-model="loginForm.username"
@@ -16,8 +17,11 @@
                   auto-complete="off" placeholder="密码"/>
       </el-form-item>
       <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 100%;background: #0095ce;border: none" @click="login"
-                   v-loading="loading">
+        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; right: 30px" round>
+          注册
+        </el-button>
+        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; left: 30px" round
+                   @click="login">
           登录
         </el-button>
       </el-form-item>
@@ -34,8 +38,7 @@
         loginForm: {
           username: '',
           password: ''
-        },
-        responseResult: []
+        }
       }
     },
     methods: {
@@ -51,6 +54,12 @@
           })
         if (this.loginForm.username === "user" && this.loginForm.password === "123123") {
           this.$router.replace({path: '/index'});
+        } else {
+          this.$message({
+            showClose: true,
+            message: '帐号或密码错误',
+            type: 'error'
+          });
         }
       }
     }
@@ -76,4 +85,5 @@
     text-align: center;
     color: #505458;
   }
+
 </style>
