@@ -3,7 +3,7 @@
     class="categories"
     default-active="0"
     @select="handleSelect"
-    active-text-color="red">
+    active-text-color="#409EFF">
     <el-menu-item index="0">
       <i class="el-icon-menu"></i>
       <span slot="title">全部</span>
