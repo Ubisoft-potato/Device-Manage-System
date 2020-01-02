@@ -44,7 +44,7 @@
 <style>
   .categories {
     position: fixed;
-    margin-left: 50%;
+    margin-left: 35%;
     left: -600px;
     top: 100px;
     width: 150px;

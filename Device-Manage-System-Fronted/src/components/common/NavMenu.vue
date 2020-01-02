@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    :default-active="'/index'"
+    :default-active="'/home'"
     router
     mode="horizontal"
     background-color="white"
@@ -22,7 +22,7 @@
     data() {
       return {
         navList: [
-          {name: '/index', navItem: '首页'},
+          {name: '/home', navItem: '首页'},
           {name: '/admin', navItem: '个人中心'}
         ]
       }

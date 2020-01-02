@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import AppIndex from "@/components/AppIndex"
 import Login from "@/components/Login"
-import Admin from "@/components/admin/Admin.vue"
+import Admin from "@/components/admin/Admin"
+import Home from "@/components/Home"
 
 Vue.use(Router)
 
@@ -12,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: "Index",
-      redirect: '/index'
+      redirect: '/home'
     },
     {
       path: '/index',
@@ -20,10 +21,15 @@ export default new Router({
       component: AppIndex,
       children: [
         {
-        path: '/admin',
-        name: 'admin',
-        component: Admin
-      }
+          path: '/home',
+          name: 'home',
+          component: Home
+        },
+        {
+          path: '/admin',
+          name: 'admin',
+          component: Admin
+        }
       ]
     },
     {
