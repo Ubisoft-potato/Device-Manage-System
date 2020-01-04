@@ -1,5 +1,7 @@
 package org.cust.devicemanagesystem.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +26,7 @@ public class Authorities {
     /**
      * 主键
      */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     /**
      * 权限名称

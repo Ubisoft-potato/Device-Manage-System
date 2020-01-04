@@ -1,9 +1,11 @@
 package org.cust.devicemanagesystem.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -24,6 +26,7 @@ public class Users {
     /**
      * 主键
      */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     /**
      * 账号
@@ -49,4 +52,9 @@ public class Users {
      * 所属学院
      */
     private String institute;
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 }
