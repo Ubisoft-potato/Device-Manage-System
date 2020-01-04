@@ -1,16 +1,16 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   # mysql Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    password:
-    username:
+    url: jdbc:mysql://192.168.1.4:3306/device_manage_system??useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    password: root
+    username: root
   # redis config
   redis:
-    database:
-    host:
+    database: 0
+    host: 192.168.1.4
     jedis:
       pool:
         max-active: 8
