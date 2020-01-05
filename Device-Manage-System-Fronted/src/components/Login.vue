@@ -17,10 +17,12 @@
                   auto-complete="off" placeholder="密码"/>
       </el-form-item>
       <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; right: 30px" round>
+        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; right: 30px"
+                   round>
           注册
         </el-button>
-        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; left: 30px" round
+        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; left: 30px"
+                   round
                    @click="login">
           登录
         </el-button>
@@ -43,24 +45,28 @@
     },
     methods: {
       login() {
+        const params = new URLSearchParams();
+        params.append('username', this.loginForm.username)
+        params.append('password', this.loginForm.password)
         this.loading = true
         this.$axios
-          .get("/v1/bpi/currentprice.json")
+          .post("/login", params)
           .then(res => {
             console.log(res.data)
-            if (res.data != null) {
+            let data = JSON.parse(res.data);
+            if (data["httpCode"] === "200") {
               this.loading = false
+              this.$message.success("登录成功")
             }
-          })
-        if (this.loginForm.username === "user" && this.loginForm.password === "123123") {
-          this.$router.replace({path: '/index'});
-        } else {
-          this.$message({
-            showClose: true,
-            message: '帐号或密码错误',
-            type: 'error'
-          });
-        }
+            if (data["httpCode"] === "401") {
+              this.loading = false
+              this.$message.error("账号或密码错误")
+            }
+          }).catch(reason => {
+          this.loading = false
+          console.info(reason)
+        })
+
       }
     }
   }

@@ -8,7 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 
 //请求根域名
-axios.defaults.baseURL = "https://api.coindesk.com"
+axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.withCredentials = true
 // 全局注册axios客户端
 Vue.prototype.$axios = axios
 Vue.use(ElementUI)

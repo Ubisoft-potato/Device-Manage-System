@@ -27,6 +27,11 @@ public class UsersController {
     private IUsersService usersService;
 
 
+    @GetMapping("hello")
+    public String hello() {
+        return "hello";
+    }
+
     /**
      * 新增
      */

@@ -1,7 +1,6 @@
 package org.cust.devicemanagesystem.config;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.cust.devicemanagesystem.exception.ServiceException;
 import org.cust.devicemanagesystem.model.Authorities;
 import org.cust.devicemanagesystem.model.Users;
 import org.cust.devicemanagesystem.service.IAuthoritiesService;
@@ -32,7 +31,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //查询用户
         Users user = usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, username));
         if (Objects.isNull(user)) {
-            throw new ServiceException().setCode("401").setMessage("用户不存在!");
+            throw new UsernameNotFoundException("用户不存在!");
         }
         // 获取用户权限码
         Set<SimpleGrantedAuthority> authorityList = authoritiesService
