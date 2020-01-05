@@ -54,14 +54,15 @@
           .then(res => {
             console.log(res.data)
             let data = JSON.parse(res.data);
-            if (data["httpCode"] === "200") {
-              this.loading = false
-              this.$message.success("登录成功")
-            }
-            if (data["httpCode"] === "401") {
-              this.loading = false
-              this.$message.error("账号或密码错误")
-            }
+            console.log(data)
+            // if (data["httpCode"] === "200") {
+            //   this.loading = false
+            //   this.$message.success("登录成功")
+            // }
+            // if (data["httpCode"] === "401") {
+            //   this.loading = false
+            //   this.$message.error("账号或密码错误")
+            // }
           }).catch(reason => {
           this.loading = false
           console.info(reason)

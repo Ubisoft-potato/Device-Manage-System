@@ -1,5 +1,6 @@
 package org.cust.devicemanagesystem.config;
 
+import org.cust.devicemanagesystem.config.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http
                 .csrf().disable()
                 .formLogin()
                 .successHandler(successHandler)
@@ -46,9 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/login").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                // 在spring security代理过滤链开始添加跨域支持过滤器
+                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
     }
 
     @Override
