@@ -45,27 +45,57 @@
     },
     methods: {
       login() {
+        let username = this.loginForm.username;
+        let password = this.loginForm.password;
+        if (username === "" || password === "") {
+          this.$message({
+            showClose: true,
+            message: '账号或密码不能为空!',
+            type: 'error'
+          });
+          return
+        }
         const params = new URLSearchParams();
-        params.append('username', this.loginForm.username)
-        params.append('password', this.loginForm.password)
+        params.append('username', username)
+        params.append('password', password)
         this.loading = true
         this.$axios
           .post("/login", params)
           .then(res => {
-            console.log(res.data)
-            let data = JSON.parse(res.data);
-            console.log(data)
-            // if (data["httpCode"] === "200") {
-            //   this.loading = false
-            //   this.$message.success("登录成功")
-            // }
-            // if (data["httpCode"] === "401") {
-            //   this.loading = false
-            //   this.$message.error("账号或密码错误")
-            // }
+            let data = res.data;
+            console.log()
+            if (data['httpCode'] === "200") {
+              this.loading = false
+              this.$message({
+                showClose: true,
+                message: data["message"],
+                type: 'success'
+              });
+            }
+            if (data['httpCode'] === "401") {
+              this.loading = false
+              this.$message({
+                showClose: true,
+                message: data["message"],
+                type: 'error'
+              });
+            }
+
+            this.$axios.get("/users/info")
+              .then(res => {
+                console.log(res.data)
+              })
+
+            this.loginForm.username = ""
+            this.loginForm.password = ""
           }).catch(reason => {
           this.loading = false
           console.info(reason)
+          this.$message({
+            showClose: true,
+            message: "服务不可用",
+            type: 'error'
+          })
         })
 
       }

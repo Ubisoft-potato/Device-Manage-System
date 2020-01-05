@@ -16,7 +16,7 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String origin = request.getHeader("Origin");
-        log.info("Origin is : {}", origin);
+        log.debug("Origin is : {}", origin);
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE,OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");

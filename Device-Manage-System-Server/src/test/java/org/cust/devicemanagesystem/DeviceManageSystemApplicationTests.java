@@ -25,10 +25,9 @@ public class DeviceManageSystemApplicationTests {
         mapper.insert(new Users()
                 .setInstitute("计算机科学技术学院")
                 .setPassword(PasswordEncoder.encode("123123"))
-                .setRealName("张三")
-                .setTelPhone("13542500644")
-                .setUsername("admin")
-                .setWorkId("1605211111"));
+                .setRealName("李四")
+                .setTelPhone("13542500614")
+                .setUsername("user")
+                .setWorkId("1684316"));
     }
-
 }

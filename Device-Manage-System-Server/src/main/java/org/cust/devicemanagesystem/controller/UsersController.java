@@ -2,10 +2,13 @@ package org.cust.devicemanagesystem.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.cust.devicemanagesystem.model.Users;
 import org.cust.devicemanagesystem.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
  * @author Long
  * @since 2020-01-04
  */
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -27,9 +31,13 @@ public class UsersController {
     private IUsersService usersService;
 
 
-    @GetMapping("hello")
-    public String hello() {
-        return "hello";
+    @GetMapping("/info")
+    public Users getUserInfo(Authentication authentication) {
+        log.info("current username: {}", authentication.getName());
+        return usersService.getOne(Wrappers
+                .lambdaQuery(new Users())
+                .eq(Users::getUsername, authentication.getName()))
+                .setPassword(null);
     }
 
     /**
