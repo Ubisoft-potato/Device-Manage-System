@@ -19,6 +19,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -35,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationEntryPoint authenticationEntryPoint;
 
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -50,6 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .logout().permitAll()
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 // 在spring security代理过滤链开始添加跨域支持过滤器
                 .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
@@ -71,11 +78,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                              AuthenticationSuccessHandler successHandler,
                              AuthenticationFailureHandler failureHandler,
                              AccessDeniedHandler accessDeniedHandler,
-                             AuthenticationEntryPoint authenticationEntryPoint) {
+                             AuthenticationEntryPoint authenticationEntryPoint,
+                             LogoutSuccessHandler logoutSuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
         this.accessDeniedHandler = accessDeniedHandler;
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.logoutSuccessHandler = logoutSuccessHandler;
     }
 }
