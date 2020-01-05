@@ -19,6 +19,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+/**
+ * create by: long
+ * description:
+ * create time: 2020/1/5 下午9:45
+ */
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 

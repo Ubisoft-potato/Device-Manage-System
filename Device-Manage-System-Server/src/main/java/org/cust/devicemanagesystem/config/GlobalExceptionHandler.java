@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
+/**
+ * create by: long
+ * description:
+ * create time: 2020/1/5 下午9:45
+ */
 @RestControllerAdvice(basePackages = "org.cust.devicemanagesystem.controller")
 public class GlobalExceptionHandler {
 
