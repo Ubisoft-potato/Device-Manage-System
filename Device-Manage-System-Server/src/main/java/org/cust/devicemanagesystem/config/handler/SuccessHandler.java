@@ -2,6 +2,7 @@ package org.cust.devicemanagesystem.config.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.cust.devicemanagesystem.exception.ResponseMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private AuthenticationMessage message = new AuthenticationMessage().setMessage("登录成功").setHttpCode("200");
+    private ResponseMessage message = new ResponseMessage().setMessage("登录成功").setHttpCode("200");
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

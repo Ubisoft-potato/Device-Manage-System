@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ServiceException extends Exception {
-    private String code;
+public class ResponseMessage {
+    private String httpCode;
     private String message;
 }

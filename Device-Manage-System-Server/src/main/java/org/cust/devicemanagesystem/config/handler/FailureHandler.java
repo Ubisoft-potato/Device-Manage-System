@@ -1,6 +1,7 @@
 package org.cust.devicemanagesystem.config.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.cust.devicemanagesystem.exception.ResponseMessage;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private AuthenticationMessage message = new AuthenticationMessage().setMessage("账号或密码错误").setHttpCode("401");
+    private ResponseMessage message = new ResponseMessage().setMessage("账号或密码错误").setHttpCode("401");
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
