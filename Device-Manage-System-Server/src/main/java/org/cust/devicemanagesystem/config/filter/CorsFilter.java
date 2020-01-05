@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * create by: long
+ * description:
+ * create time: 2020/1/5 下午9:44
+ */
 @Slf4j
 public class CorsFilter implements Filter {
 

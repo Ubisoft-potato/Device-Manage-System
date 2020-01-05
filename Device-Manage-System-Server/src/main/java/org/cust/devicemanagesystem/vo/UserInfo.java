@@ -9,6 +9,12 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+/**
+ * create by: long
+ * description:
+ * create time: 2020/1/5 下午9:46
+ */
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode

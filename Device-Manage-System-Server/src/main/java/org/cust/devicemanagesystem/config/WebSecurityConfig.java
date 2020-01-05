@@ -21,6 +21,12 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+
+/**
+ * create by: long
+ * description:
+ * create time: 2020/1/5 下午9:45
+ */
 @Configuration
 @EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -51,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/login","/users/register").permitAll()
+                .antMatchers("/login", "/users/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll()
