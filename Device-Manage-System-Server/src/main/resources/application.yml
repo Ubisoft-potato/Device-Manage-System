@@ -16,3 +16,7 @@ spring:
         max-active: 8
         min-idle: 0
 
+
+logging:
+  level:
+    org.cust.devicemanagesystem.mapper: debug
