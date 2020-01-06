@@ -98,7 +98,9 @@
                 message: "注册成功",
                 type: 'success'
               })
-            }else {
+              this.loading = false
+              this.$router.back()
+            } else {
               this.$message({
                 showClose: true,
                 message: "注册失败，请稍后再试",
@@ -112,6 +114,7 @@
                 type: 'error'
               })
             }
+            this.loading = false
           })
           .catch(Error => {
             this.$message({
@@ -119,8 +122,8 @@
               message: "服务不可用",
               type: 'error'
             })
+            this.loading = false
           })
-        this.loading = false
       },
       back() {
         this.$router.back()
