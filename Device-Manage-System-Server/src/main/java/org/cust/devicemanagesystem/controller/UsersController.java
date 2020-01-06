@@ -68,7 +68,7 @@ public class UsersController {
      */
     @PostMapping("/register")
     @Transactional(rollbackFor = Exception.class)
-    public boolean userRegister(@Validated UserInfo userInfo) throws ServiceException {
+    public boolean userRegister(@Validated @RequestBody UserInfo userInfo) throws ServiceException {
         Users user = userConverter.toUsers(userInfo);
         if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, user.getUsername())))) {
             throw new ServiceException().setCode("400").setMessage("用户名已存在");

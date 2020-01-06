@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
      * @return ErrorMessage
      */
     @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseMessage validExceptionHandler(BindException e) {
         StringBuilder message = new StringBuilder();
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
      * @return ResponseMessage
      */
     @ExceptionHandler(ServiceException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseMessage serviceExceptionHandler(ServiceException e) {
         return new ResponseMessage().setHttpCode("400").setMessage(e.getMessage());
     }

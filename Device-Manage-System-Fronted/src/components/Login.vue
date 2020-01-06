@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <el-image
       style="width: 400px; height: 170px"
@@ -18,7 +17,8 @@
       </el-form-item>
       <el-form-item style="width: 100%">
         <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; right: 30px"
-                   round>
+                   round
+                   @click="register">
           注册
         </el-button>
         <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; left: 30px"
@@ -97,7 +97,9 @@
             type: 'error'
           })
         })
-
+      },
+      register() {
+        this.$router.push('/register');
       }
     }
   }
