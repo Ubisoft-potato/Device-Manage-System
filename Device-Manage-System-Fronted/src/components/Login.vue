@@ -63,7 +63,6 @@
           .post("/login", params)
           .then(res => {
             let data = res.data;
-            console.log()
             if (data['httpCode'] === "200") {
               this.loading = false
               this.$message({
@@ -71,6 +70,21 @@
                 message: data["message"],
                 type: 'success'
               });
+              //登录成功获取用户信息
+              this.$axios.get("/users/info")
+                .then(res => {
+                  console.log(res.data)
+                  this.$store.commit("login", res.data)
+                  let redirect = this.$route.query.redirect;
+                  console.log(redirect)
+                  this.$router.push(redirect !== undefined ? redirect : "/")
+                }).catch(Error => {
+                this.$message({
+                  showClose: true,
+                  message: "获取用户信息失败",
+                  type: 'error'
+                })
+              })
             }
             if (data['httpCode'] === "401") {
               this.loading = false
@@ -80,23 +94,18 @@
                 type: 'error'
               });
             }
-
-            this.$axios.get("/users/info")
-              .then(res => {
-                console.log(res.data)
-              })
-
             this.loginForm.username = ""
             this.loginForm.password = ""
-          }).catch(reason => {
-          this.loading = false
-          console.info(reason)
-          this.$message({
-            showClose: true,
-            message: "服务不可用",
-            type: 'error'
           })
-        })
+          .catch(reason => {
+            this.loading = false
+            console.info(reason)
+            this.$message({
+              showClose: true,
+              message: "服务不可用",
+              type: 'error'
+            })
+          })
       },
       register() {
         this.$router.push('/register');

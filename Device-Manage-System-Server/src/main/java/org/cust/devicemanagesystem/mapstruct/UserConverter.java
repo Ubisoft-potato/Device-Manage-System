@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserConverter {
+    @Mapping(target = "isSuperAdmin", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     UserInfo toUserInfo(Users user);
 

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.cust.devicemanagesystem.exception.ServiceException;
 import org.cust.devicemanagesystem.mapstruct.UserConverter;
 import org.cust.devicemanagesystem.model.Authorities;
+import org.cust.devicemanagesystem.model.AuthorityCodeEnum;
 import org.cust.devicemanagesystem.model.Users;
 import org.cust.devicemanagesystem.service.IAuthoritiesService;
 import org.cust.devicemanagesystem.service.IUsersService;
@@ -55,12 +56,14 @@ public class UsersController {
                 .lambdaQuery(new Users())
                 .eq(Users::getUsername, authentication.getName()))
                 .setPassword(null);
+        List<String> authorities = authoritiesService.list(Wrappers
+                .lambdaQuery(new Authorities()).eq(Authorities::getUserId, user.getId()))
+                .stream()
+                .map(Authorities::getAuthority)
+                .collect(Collectors.toList());
         return userConverter.toUserInfo(user)
-                .setAuthorities(authoritiesService.list(Wrappers
-                        .lambdaQuery(new Authorities()).eq(Authorities::getUserId, user.getId()))
-                        .stream()
-                        .map(Authorities::getAuthority)
-                        .collect(Collectors.toList()));
+                .setIsSuperAdmin(authorities.contains(AuthorityCodeEnum.SUPER_ADMIN.toString()))
+                .setAuthorities(authorities);
     }
 
     /**

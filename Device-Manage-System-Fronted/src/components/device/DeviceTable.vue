@@ -1,13 +1,11 @@
 <template>
-  <div>
-    首页
-  </div>
+
 </template>
 
 <script>
-  export default {
-    name: "Home"
-  }
+    export default {
+        name: "DeviceTable"
+    }
 </script>
 
 <style scoped>

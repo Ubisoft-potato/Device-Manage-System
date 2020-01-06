@@ -2,9 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import AppIndex from "@/components/AppIndex"
 import Login from "@/components/Login"
-import Admin from "@/components/admin/Admin"
+import UserCenter from "@/components/user/UserCenter"
 import Home from "@/components/Home"
 import Register from "../components/Register";
+import UserManage from "../components/user/UserManage";
+import WaitForCheck from "../components/device/WaitForCheck";
+import DeviceManage from "../components/device/DeviceManage";
+import UserDetail from "../components/user/UserDetail";
 
 Vue.use(Router)
 
@@ -19,7 +23,10 @@ export default new Router({
     {
       path: '/',
       name: "Index",
-      redirect: '/home'
+      redirect: '/home',
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/index',
@@ -29,12 +36,42 @@ export default new Router({
         {
           path: '/home',
           name: 'home',
-          component: Home
+          component: Home,
+          meta: {
+            requireAuth: true
+          }
         },
         {
-          path: '/admin',
-          name: 'admin',
-          component: Admin
+          path: '/userCenter',
+          name: 'UserCenter',
+          component: UserCenter,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/userManage',
+          name: 'UserManage',
+          component: UserManage,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/waitForCheck',
+          name: 'WaitForCheck',
+          component: WaitForCheck,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/deviceManage',
+          name: 'DeviceManage',
+          component: DeviceManage,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },

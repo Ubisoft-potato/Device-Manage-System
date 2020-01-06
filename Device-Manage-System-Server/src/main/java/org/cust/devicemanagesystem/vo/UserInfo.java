@@ -62,4 +62,8 @@ public class UserInfo {
      */
     @NotEmpty
     private List<String> authorities;
+    /**
+     * 是否为超级管理员
+     */
+    private Boolean isSuperAdmin;
 }

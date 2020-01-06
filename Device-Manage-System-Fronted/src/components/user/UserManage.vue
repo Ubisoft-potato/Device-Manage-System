@@ -1,15 +1,13 @@
 <template>
-  <div>
-    首页
-  </div>
+
 </template>
 
 <script>
   export default {
-    name: "Home"
+    name: "UserManage"
   }
 </script>
 
-<style scoped>
+<style>
 
 </style>

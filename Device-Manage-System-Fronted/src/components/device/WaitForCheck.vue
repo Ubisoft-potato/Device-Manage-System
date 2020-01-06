@@ -1,15 +1,15 @@
 <template>
-  <div>
-    首页
-  </div>
+<div>
+  待审核
+</div>
 </template>
 
 <script>
   export default {
-    name: "Home"
+    name: "WaitForCheck"
   }
 </script>
 
-<style scoped>
+<style>
 
 </style>
