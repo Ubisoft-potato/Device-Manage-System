@@ -7,6 +7,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import store from './store'
+import {MessageBox} from "element-ui";
 
 //请求根域名
 axios.defaults.baseURL = "http://localhost:8081"
@@ -33,6 +34,33 @@ router.beforeEach((to, from, next) => {
     }
   }
 )
+
+axios.interceptors.response.use(
+  response => {
+    if (response.status === 200) {
+      if (response.data["httpCode"] === "403") {
+        MessageBox.alert(response.data["message"], "用户验证", {
+          confirmButtonText: "确定"
+        })
+      }
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(response);
+    }
+  },
+  error => {
+    console.log(error.response.status === 401)
+    if (error.response.status === 401) {
+      console.log("未登录")
+      MessageBox.alert("登录超时，请重新登录!", "用户验证", {
+        confirmButtonText: "前往登录页",
+        callback: action => {
+          window.location.href = "/login"
+        }
+      })
+    }
+  })
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

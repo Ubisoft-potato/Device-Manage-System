@@ -101,6 +101,7 @@ public class UsersController {
     /**
      * 通过id删除
      */
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @DeleteMapping
     public boolean delete(Users users) {
         return usersService.removeById(users.getId());
@@ -118,6 +119,7 @@ public class UsersController {
     /**
      * 查询列表
      */
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @GetMapping("/list")
     public List<Users> list(Users users) {
         QueryWrapper<Users> wp = new QueryWrapper<>();
@@ -128,6 +130,7 @@ public class UsersController {
     /**
      * 分页查询
      */
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @GetMapping("/page")
     public IPage<Users> page(Page<Users> page, Users users) {
         QueryWrapper<Users> wp = new QueryWrapper<>();

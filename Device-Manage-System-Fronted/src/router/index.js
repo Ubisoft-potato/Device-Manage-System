@@ -8,7 +8,6 @@ import Register from "../components/Register";
 import UserManage from "../components/user/UserManage";
 import WaitForCheck from "../components/device/WaitForCheck";
 import DeviceManage from "../components/device/DeviceManage";
-import UserDetail from "../components/user/UserDetail";
 
 Vue.use(Router)
 

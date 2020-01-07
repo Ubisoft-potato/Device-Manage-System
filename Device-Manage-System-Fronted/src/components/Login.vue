@@ -62,6 +62,7 @@
         this.$axios
           .post("/login", params)
           .then(res => {
+            console.log(res)
             let data = res.data;
             if (data['httpCode'] === "200") {
               this.loading = false

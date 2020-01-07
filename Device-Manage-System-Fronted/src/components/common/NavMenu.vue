@@ -15,7 +15,8 @@
       <el-menu-item index="" style="text-align: center; color: #303133" disabled>{{user.institute}}</el-menu-item>
       <el-menu-item index="" style="text-align: center; color: #F56C6C" @click="logout">退出登录</el-menu-item>
     </el-submenu>
-    <el-menu-item v-show="user.isSuperAdmin" style="float: right" v-for="(item,i) in manageList" :key="i+navList.length" :index="item.name">
+    <el-menu-item v-show="user.isSuperAdmin" style="float: right" v-for="(item,i) in manageList" :key="i+navList.length"
+                  :index="item.name">
       {{ item.navItem }}
     </el-menu-item>
     <span
@@ -30,7 +31,7 @@
     name: 'NavMenu',
     data() {
       return {
-        user: JSON.parse(this.$store.state.user),
+        user: {},
         navList: [
           {name: '/home', navItem: '首页'},
           {name: '/waitForCheck', navItem: '待审核'},
@@ -42,6 +43,19 @@
         ]
       }
     },
+    created() {
+      this.$axios.get("/users/info")
+        .then(res => {
+          this.user = res.data
+        }).catch(Error => {
+        this.$message({
+          showClose: true,
+          message: "获取用户信息失败",
+          type: 'error'
+        })
+      })
+    },
+
     methods: {
       logout() {
         this.$axios.get("/logout")

@@ -4,8 +4,12 @@
       <el-menu
         class="el-menu-vertical-demo">
         <el-menu-item index="1" @click="getUserInfo">
-          <i class="el-icon-edit"/>
+          <i class="el-icon-user"/>
           <span slot="title">修改信息</span>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <i class="el-icon-edit"/>
+          <span slot="title">修改密码</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -37,11 +41,13 @@
             console.log(res.data)
             this.user = res.data
           }).catch(Error => {
-          this.$message({
-            showClose: true,
-            message: "获取用户信息失败",
-            type: 'error'
-          })
+          // this.$message({
+          //   showClose: true,
+          //   message: "获取用户信息失败,请重新登录",
+          //   type: 'error'
+          // })
+          // window.localStorage.clear()
+          // this.$router.push("/login")
         })
       }
     }
