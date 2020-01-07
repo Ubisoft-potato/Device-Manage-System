@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -101,17 +103,21 @@ public class UsersController {
     /**
      * 通过id删除
      */
+    @Transactional
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
-    @DeleteMapping
-    public boolean delete(Users users) {
-        return usersService.removeById(users.getId());
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@NotBlank @PathVariable String id) {
+        if (authoritiesService.remove(Wrappers.lambdaQuery(new Authorities()).eq(Authorities::getUserId, id))) {
+            return usersService.removeById(id);
+        }
+        return false;
     }
 
     /**
      * 修改
      */
-    @PutMapping
-    public boolean updateById(Users users) {
+    @PutMapping("/update")
+    public boolean updateById(@Validated @RequestBody Users users) {
         return usersService.updateById(users);
     }
 
@@ -131,11 +137,18 @@ public class UsersController {
      * 分页查询
      */
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
-    @GetMapping("/page")
-    public IPage<Users> page(Page<Users> page, Users users) {
-        QueryWrapper<Users> wp = new QueryWrapper<>();
-        //todo init wp
-        return usersService.page(page, wp);
+    @PostMapping("/page/{authority}")
+    public IPage<UserInfo> page(@NotNull @RequestBody Page<Users> page, @NotBlank @PathVariable String authority) {
+        IPage<Users> pageByAuthority = usersService.getUserPageByAuthority(page, authority);
+        List<UserInfo> userInfos = pageByAuthority.getRecords().stream()
+                .map(userConverter::toUserInfo)
+                .collect(Collectors.toList());
+        return new Page<UserInfo>()
+                .setCurrent(pageByAuthority.getCurrent())
+                .setRecords(userInfos)
+                .setSize(pageByAuthority.getSize())
+                .setTotal(pageByAuthority.getTotal())
+                .setPages(pageByAuthority.getPages());
     }
 
 

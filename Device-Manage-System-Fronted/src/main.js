@@ -14,6 +14,7 @@ axios.defaults.baseURL = "http://localhost:8081"
 axios.defaults.withCredentials = true
 // 全局注册axios客户端
 Vue.prototype.$axios = axios
+Vue.prototype.$messageBox = MessageBox
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

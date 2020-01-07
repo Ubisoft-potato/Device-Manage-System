@@ -33,16 +33,16 @@ public class DeviceManageSystemApplicationTests {
         mapper.insert(new Users()
                 .setInstitute("计算机科学技术学院")
                 .setPassword(PasswordEncoder.encode("123123"))
-                .setRealName("李四")
+                .setRealName("张三")
                 .setTelPhone("13542500614")
-                .setUsername("user")
+                .setUsername("admin")
                 .setWorkId("1684316"));
     }
 
     @Test
     public void addAuthorities() {
-        authoritiesService.saveBatch(Arrays.asList(new Authorities().setAuthority(AuthorityCodeEnum.SUPER_ADMIN.toString()).setUserId(1213451694000627713L),
-                new Authorities().setAuthority(AuthorityCodeEnum.ADMIN.toString()).setUserId(1213451694000627713L),
-                new Authorities().setAuthority(AuthorityCodeEnum.USER.toString()).setUserId(1213451694000627713L)));
+        authoritiesService.saveBatch(Arrays.asList(new Authorities().setAuthority(AuthorityCodeEnum.SUPER_ADMIN.toString()).setUserId(1213699955961700354L),
+                new Authorities().setAuthority(AuthorityCodeEnum.ADMIN.toString()).setUserId(1213699955961700354L),
+                new Authorities().setAuthority(AuthorityCodeEnum.USER.toString()).setUserId(1213699955961700354L)));
     }
 }

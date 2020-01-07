@@ -22,7 +22,7 @@ public class UserInfo {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
     /**
      * 账号
      */

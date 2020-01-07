@@ -4,7 +4,7 @@
       <h3 class="register_title">信息修改</h3>
       <el-form status-icon label-width=auto :model="userInfo" ref="user" :rules="rules">
         <el-form-item label='账号' prop="username">
-          <el-input placeholder="请输入账号" v-model="userInfo.username"/>
+          <el-input placeholder="请输入账号" disabled v-model="userInfo.username"/>
         </el-form-item>
         <el-form-item label='姓名' prop="realName">
           <el-input placeholder="请输入姓名" v-model="userInfo.realName"/>
@@ -19,8 +19,8 @@
           <el-input placeholder="请输入电话" v-model="userInfo.telPhone"/>
         </el-form-item>
         <el-form-item style="position: relative; right: 30px">
-          <el-button type='primary'>确认修改</el-button>
-          <el-button type='danger'>取消</el-button>
+          <el-button type='primary' @click="update">确认修改</el-button>
+          <el-button type='danger' @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -31,7 +31,7 @@
   export default {
     name: "UserDetail",
     props: {
-      userInfo: Object
+      user: Object
     },
     data() {
       const validateNull = (rule, value, callback) => {
@@ -43,6 +43,7 @@
       }
       return {
         loading: false,
+        userInfo: {},
         rules: {
           username: [{validator: validateNull, trigger: 'blur'}],
           realName: [{validator: validateNull, trigger: 'blur'}],
@@ -50,6 +51,52 @@
           institute: [{validator: validateNull, trigger: 'blur'}],
           telPhone: [{validator: validateNull, trigger: 'blur'}]
         }
+      }
+    },
+    watch: {
+      user: function () {
+        this.userInfo = this.user
+      }
+    },
+    methods: {
+      update() {
+        this.loading = true
+        console.log(this.userInfo.id)
+        this.$axios.put("/users/update", this.userInfo)
+          .then(res => {
+            console.log(res.data)
+            if (res.data) {
+              this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success"
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: "更新失败，请稍后再试",
+                type: "error"
+              })
+            }
+            this.loading = false
+          })
+          .catch(error => {
+            this.$message({
+              showClose: true,
+              message: "更新失败，请稍后再试",
+              type: "error"
+            })
+            this.loading = false
+          })
+      },
+      reset() {
+        this.$axios.get("/users/info")
+          .then(res => {
+            this.userInfo = res.data
+          })
+          .catch(error => {
+
+          })
       }
     }
   }

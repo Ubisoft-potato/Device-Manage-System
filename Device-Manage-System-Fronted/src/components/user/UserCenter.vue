@@ -9,12 +9,12 @@
         </el-menu-item>
         <el-menu-item index="2">
           <i class="el-icon-edit"/>
-          <span slot="title">修改密码</span>
+          <span slot="title" @click="changePassword">修改密码</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
     <el-main>
-      <UserDetail :userInfo="user" v-if="showDetail"/>
+      <UserDetail :user="user" v-show="showDetail"/>
     </el-main>
   </el-container>
 </template>
@@ -41,22 +41,19 @@
             console.log(res.data)
             this.user = res.data
           }).catch(Error => {
-          // this.$message({
-          //   showClose: true,
-          //   message: "获取用户信息失败,请重新登录",
-          //   type: 'error'
-          // })
-          // window.localStorage.clear()
-          // this.$router.push("/login")
+
         })
+      },
+      changePassword() {
+        this.showDetail = false
       }
     }
   }
 </script>
 
 <style>
-.container{
-  position: relative;
-  top: -55px;
-}
+  .container {
+    position: relative;
+    top: -55px;
+  }
 </style>

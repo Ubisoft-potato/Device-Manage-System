@@ -6,7 +6,7 @@
     background-color="white"
     text-color="#222"
     active-text-color="#409EFF"
-    style="min-width: 1300px; position: relative;top: -55px">
+    style="min-width: 1300px; position: relative;top: -55px; font-family: Microsoft YaHei,monospace">
     <div style="float: left; position: relative; top: 13px">
       <el-image
         src="static/cust.png"

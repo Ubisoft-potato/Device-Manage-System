@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -27,6 +28,7 @@ public class Users {
      * 主键
      */
     @TableId(type = IdType.ASSIGN_ID)
+    @NotNull
     private Long id;
     /**
      * 账号
