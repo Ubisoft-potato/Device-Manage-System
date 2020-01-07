@@ -3,9 +3,9 @@
 </template>
 
 <script>
-    export default {
-        name: "DeviceTable"
-    }
+  export default {
+    name: "DeviceTable"
+  }
 </script>
 
 <style scoped>

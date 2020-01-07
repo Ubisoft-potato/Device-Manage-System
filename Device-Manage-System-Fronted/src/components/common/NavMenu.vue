@@ -7,6 +7,14 @@
     text-color="#222"
     active-text-color="#409EFF"
     style="min-width: 1300px; position: relative;top: -55px">
+    <div style="float: left; position: relative; top: 13px">
+      <el-image
+        src="static/cust.png"
+        fit="contain"/>
+      <el-image
+        src="static/cust-font.png"
+        fit="contain"/>
+    </div>
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
       {{ item.navItem }}
     </el-menu-item>

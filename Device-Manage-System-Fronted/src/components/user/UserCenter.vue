@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="container">
     <el-aside>
       <el-menu
         class="el-menu-vertical-demo">
@@ -55,5 +55,8 @@
 </script>
 
 <style>
-
+.container{
+  position: relative;
+  top: -55px;
+}
 </style>
