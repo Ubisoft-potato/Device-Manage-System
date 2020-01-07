@@ -6,6 +6,7 @@ import org.cust.devicemanagesystem.exception.ServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -48,5 +49,17 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage serviceExceptionHandler(ServiceException e) {
         return new ResponseMessage().setHttpCode("400").setMessage(e.getMessage());
+    }
+
+    /**
+     * 统一处理请求参数校验(实体对象传参)
+     *
+     * @param e BindException
+     * @return ErrorMessage
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResponseMessage().setHttpCode("400").setMessage("请填写必填参数");
     }
 }

@@ -11,31 +11,54 @@
           <i class="el-icon-s-check"/>
           <span slot="title">管理员</span>
         </el-menu-item>
+        <el-menu-item index="3" @click="addAdmin">
+          <i class="el-icon-circle-plus-outline"/>
+          <span slot="title">添加管理员</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-main>
-      <user-table :authority="authority"/>
+      <user-table :authority="authority" v-if="showUserTable"/>
+      <AdminRegister v-if="showAdminRegister"/>
     </el-main>
   </el-container>
 </template>
 
 <script>
   import UserTable from "./UserTable";
+  import AdminRegister from "./AdminRegister";
 
   export default {
     name: "UserManage",
-    components: {UserTable},
+    components: {UserTable, AdminRegister},
     data() {
       return {
+        showUserTable: false,
+        showAdminRegister: false,
         authority: ""
       }
     },
     methods: {
       getOrdinaryUser() {
+        this.$nextTick(() => {
+          this.showAdminRegister = false
+          this.showUserTable = true
+        });
         this.authority = "USER"
       },
       getAdminUser() {
+
+        this.$nextTick(() => {
+          this.showAdminRegister = false
+          this.showUserTable = true
+        });
         this.authority = "ADMIN"
+      },
+      addAdmin() {
+        this.$nextTick(() => {
+          this.showUserTable = false
+          this.showAdminRegister = true
+        });
       }
     }
   }

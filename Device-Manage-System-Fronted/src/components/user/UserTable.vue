@@ -84,6 +84,7 @@
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
+        dialog = true
       },
       //删除用户
       handleDelete(index, row) {
