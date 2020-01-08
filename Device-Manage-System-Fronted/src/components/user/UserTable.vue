@@ -44,8 +44,15 @@
     <el-pagination
       class="pagination"
       background
-      layout="prev, pager, next"
-      :total="total">
+      layout="total, sizes,prev, pager, next"
+      :current-page="pageCondition.current"
+      :page-size="pageCondition.size"
+      :total="total"
+      :page-sizes="[2, 10, 15, 20]"
+      @next-click="nextPage"
+      @prev-click="prevPage"
+      @current-change="currentChange"
+      @size-change="handleSizeChange">
     </el-pagination>
     <el-dialog title="编辑用户信息" :visible.sync="dialogFormVisible" width="400px" v-loading="dialogLoading">
       <el-form status-icon label-width=auto :model="user" ref="user" :rules="rules">
@@ -112,24 +119,17 @@
         dialogLoading: false,
         total: 0,
         tableData: [],
+        pageCondition: {
+          current: 1,
+          size: 2
+        },
         search: ''
       }
     },
     watch: {
       authority: function () {
         console.log(this.authority)
-        this.$axios.post("/users/page/" + this.authority,
-          {
-            current: "1",
-            size: "10"
-          }).then(res => {
-          let data = res.data;
-          console.log(data)
-          this.tableData = data["records"]
-          this.total = data["total"]
-        }).catch(error => {
-
-        })
+        this.queryPage()
       }
     },
     methods: {
@@ -168,7 +168,6 @@
             this.dialogLoading = false
           })
       },
-
       //删除用户
       handleDelete(index, row) {
         console.log(index, row, row.id);
@@ -205,6 +204,33 @@
             message: '已取消删除'
           });
         });
+      },
+      nextPage() {
+        this.pageCondition.current++
+        this.queryPage()
+      },
+      currentChange(current) {
+        this.pageCondition.current = current
+        this.queryPage()
+      },
+      prevPage() {
+        this.pageCondition.current--
+        this.queryPage()
+      },
+      handleSizeChange(size) {
+        this.pageCondition.size = size
+        this.queryPage()
+      },
+      queryPage() {
+        console.log(this.authority)
+        this.$axios.post("/users/page/" + this.authority, this.pageCondition).then(res => {
+          let data = res.data;
+          console.log(data)
+          this.tableData = data["records"]
+          this.total = data["total"]
+        }).catch(error => {
+
+        })
       }
     }
   }
