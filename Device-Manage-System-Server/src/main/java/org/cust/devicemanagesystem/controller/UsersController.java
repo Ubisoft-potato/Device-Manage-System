@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('USER')")
 public class UsersController {
 
 
