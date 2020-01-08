@@ -68,6 +68,13 @@ public class UsersController {
                 .setAuthorities(authorities);
     }
 
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @GetMapping("/info/{id}")
+    public UserInfo getUserInfoById(@NotBlank @PathVariable String id) {
+        return userConverter.toUserInfo(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getId, id)));
+    }
+
     /**
      * 注册普通用户
      */

@@ -47,6 +47,29 @@
       layout="prev, pager, next"
       :total="total">
     </el-pagination>
+    <el-dialog title="编辑用户信息" :visible.sync="dialogFormVisible" width="400px" v-loading="dialogLoading">
+      <el-form status-icon label-width=auto :model="user" ref="user" :rules="rules">
+        <el-form-item label='账号' prop="username">
+          <el-input placeholder="请输入账号" v-model="user.username" disabled/>
+        </el-form-item>
+        <el-form-item label='姓名' prop="realName">
+          <el-input placeholder="请输入姓名" v-model="user.realName"/>
+        </el-form-item>
+        <el-form-item label='学号' prop="workId">
+          <el-input placeholder="请输入学号" v-model="user.workId"/>
+        </el-form-item>
+        <el-form-item label='所属学院' prop="institute">
+          <el-input placeholder="请输入所属学院" v-model="user.institute"/>
+        </el-form-item>
+        <el-form-item label='电话' prop="telPhone">
+          <el-input placeholder="请输入电话" v-model="user.telPhone"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmEdit">确 定 修 改</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -57,8 +80,36 @@
       authority: String
     },
     data() {
+      const validateNull = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('此为必填项'));
+        } else {
+          callback()
+        }
+      };
       return {
+        dialogFormVisible: false,
+        user: {
+          id: "",
+          username: "",
+          password: "",
+          confirmPassword: "",
+          workId: "",
+          realName: "",
+          telPhone: "",
+          institute: "",
+          authorities: ["USER"]
+        },
+        formLabelWidth: '120px',
+        rules: {
+          username: [{validator: validateNull, trigger: 'blur'}],
+          realName: [{validator: validateNull, trigger: 'blur'}],
+          workId: [{validator: validateNull, trigger: 'blur'}],
+          institute: [{validator: validateNull, trigger: 'blur'}],
+          telPhone: [{validator: validateNull, trigger: 'blur'}]
+        },
         loading: false,
+        dialogLoading: false,
         total: 0,
         tableData: [],
         search: ''
@@ -84,8 +135,40 @@
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
-        dialog = true
+        this.dialogFormVisible = true
+        this.$axios.get("/users/info/" + row.id)
+          .then(res => {
+            this.user = res.data
+          })
+          .catch(error => {
+
+          })
       },
+      confirmEdit() {
+        this.dialogLoading = true
+        this.$axios.put("/users/update", this.user)
+          .then(res => {
+            console.log(res.data)
+            if (res.data) {
+              this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success"
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: "更新失败，请稍后再试",
+                type: "error"
+              })
+            }
+            this.dialogLoading = false
+          })
+          .catch(error => {
+            this.dialogLoading = false
+          })
+      },
+
       //删除用户
       handleDelete(index, row) {
         console.log(index, row, row.id);
