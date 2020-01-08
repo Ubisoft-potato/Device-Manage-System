@@ -1,6 +1,7 @@
 package org.cust.devicemanagesystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.cust.devicemanagesystem.model.Device;
 
 /**
@@ -11,6 +12,7 @@ import org.cust.devicemanagesystem.model.Device;
  * @author Long
  * @since 2020-01-08
  */
+@Mapper
 public interface DeviceMapper extends BaseMapper<Device> {
 
 }

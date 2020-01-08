@@ -3,6 +3,7 @@ package org.cust.devicemanagesystem.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiOperation;
 import org.cust.devicemanagesystem.model.Device;
 import org.cust.devicemanagesystem.service.IDeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class DeviceController {
      */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @PostMapping("/addNewDevice")
+    @ApiOperation("添加设备")
     public boolean save(@Validated @RequestBody Device device) {
         return deviceService.save(device);
     }
@@ -41,6 +43,7 @@ public class DeviceController {
     /**
      * 通过id删除
      */
+    @ApiOperation("删除设备")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @DeleteMapping("/deleteDevice")
     public boolean delete(@NotBlank String id) {
@@ -50,6 +53,7 @@ public class DeviceController {
     /**
      * 修改
      */
+    @ApiOperation("更新设备信息")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @PutMapping("updateDevice")
     public boolean updateById(@Validated @RequestBody Device device) {
@@ -61,6 +65,7 @@ public class DeviceController {
      * 查询列表
      */
     @GetMapping("/list")
+    @ApiOperation("查询设备列表")
     public List<Device> list(Device device) {
         QueryWrapper<Device> wp = new QueryWrapper<>();
         //todo init wp
@@ -70,6 +75,7 @@ public class DeviceController {
     /**
      * 分页查询
      */
+    @ApiOperation("分页查询设备")
     @GetMapping("/page")
     public IPage<Device> page(Page<Device> page, Device device) {
         QueryWrapper<Device> wp = new QueryWrapper<>();

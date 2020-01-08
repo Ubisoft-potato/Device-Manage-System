@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.cust.devicemanagesystem.exception.ServiceException;
 import org.cust.devicemanagesystem.mapstruct.UserConverter;
@@ -52,6 +53,7 @@ public class UsersController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/info")
+    @ApiOperation(value = "获取用户信息")
     public UserInfo getUserInfo(Authentication authentication) {
         log.info("current username: {}", authentication.getName());
         Users user = usersService.getOne(Wrappers
@@ -71,6 +73,7 @@ public class UsersController {
 
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @GetMapping("/info/{id}")
+    @ApiOperation(value = "管理员通过用户id获取用户信息")
     public UserInfo getUserInfoById(@NotBlank @PathVariable String id) {
         return userConverter.toUserInfo(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getId, id)));
     }
@@ -80,6 +83,7 @@ public class UsersController {
      */
     @PostMapping("/register")
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "用户注册")
     public boolean userRegister(@Validated @RequestBody UserInfo userInfo) throws ServiceException {
         Users user = userConverter.toUsers(userInfo);
         if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, user.getUsername())))) {
@@ -101,6 +105,7 @@ public class UsersController {
      */
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping("/addAdminUser")
+    @ApiOperation(value = "添加管理员")
     public boolean addAdminUser(@Validated @RequestBody UserInfo userInfo) throws ServiceException {
         Users user = userConverter.toUsers(userInfo);
         if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, user.getUsername())))) {
@@ -119,6 +124,7 @@ public class UsersController {
     @Transactional
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "删除用户")
     public boolean delete(@NotBlank @PathVariable String id) {
         if (authoritiesService.remove(Wrappers.lambdaQuery(new Authorities()).eq(Authorities::getUserId, id))) {
             return usersService.removeById(id);
@@ -130,6 +136,7 @@ public class UsersController {
      * 修改
      */
     @PutMapping("/update")
+    @ApiOperation(value = "更新用户信息")
     public boolean updateById(@Validated @RequestBody Users users) {
         return usersService.updateById(users);
     }
@@ -151,6 +158,7 @@ public class UsersController {
      */
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping("/page/{authority}")
+    @ApiOperation(value = "分页查询所有用户")
     public IPage<UserInfo> page(@NotNull @RequestBody Page<Users> page, @NotBlank @PathVariable String authority) {
         IPage<Users> pageByAuthority = usersService.getUserPageByAuthority(page, authority);
         List<UserInfo> userInfos = pageByAuthority.getRecords().stream()
