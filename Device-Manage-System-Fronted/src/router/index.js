@@ -8,6 +8,9 @@ import Register from "../components/Register";
 import UserManage from "../components/user/UserManage";
 import WaitForCheck from "../components/device/WaitForCheck";
 import DeviceManage from "../components/device/DeviceManage";
+import DeviceTable from "../components/device/DeviceTable";
+import DeviceCheck from "../components/device/DeviceCheck";
+import AddDevice from "../components/device/AddDevice";
 
 Vue.use(Router)
 
@@ -68,6 +71,32 @@ export default new Router({
           path: '/deviceManage',
           name: 'DeviceManage',
           component: DeviceManage,
+          children: [
+            {
+              path: '/deviceTable',
+              name: 'DeviceTable',
+              component: DeviceTable,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/deviceCheck',
+              name: 'DeviceCheck',
+              component: DeviceCheck,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/addDevice',
+              name: 'AddDevice',
+              component: AddDevice,
+              meta: {
+                requireAuth: true
+              }
+            }
+          ],
           meta: {
             requireAuth: true
           }

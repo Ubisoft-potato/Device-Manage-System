@@ -1,6 +1,5 @@
 package org.cust.devicemanagesystem.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -58,8 +57,7 @@ public class UsersController {
         log.info("current username: {}", authentication.getName());
         Users user = usersService.getOne(Wrappers
                 .lambdaQuery(new Users())
-                .eq(Users::getUsername, authentication.getName()))
-                .setPassword(null);
+                .eq(Users::getUsername, authentication.getName()));
         List<String> authorities = authoritiesService.list(Wrappers
                 .lambdaQuery(new Authorities()).eq(Authorities::getUserId, user.getId()))
                 .stream()
@@ -145,12 +143,14 @@ public class UsersController {
     /**
      * 查询列表
      */
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
-    @GetMapping("/list")
-    public List<Users> list(Users users) {
-        QueryWrapper<Users> wp = new QueryWrapper<>();
-        //todo init wp
-        return usersService.list(wp);
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') or hasAuthority('ADMIN')")
+    @GetMapping("/list/{institute}")
+    @ApiOperation("根据用户所在机构查询用户列表")
+    public List<UserInfo> list(@NotBlank @PathVariable String institute) {
+        return usersService.list(Wrappers.lambdaQuery(new Users()).eq(Users::getInstitute, institute))
+                .stream()
+                .map(userConverter::toUserInfo)
+                .collect(Collectors.toList());
     }
 
     /**

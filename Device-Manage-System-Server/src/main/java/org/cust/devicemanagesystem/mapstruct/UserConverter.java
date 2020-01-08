@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface UserConverter {
     @Mapping(target = "isSuperAdmin", ignore = true)
     @Mapping(target = "authorities", ignore = true)
+    @Mapping(target = "password", ignore = true)
     @Mapping(target = "id", expression = "java(String.valueOf(user.getId()))")
     UserInfo toUserInfo(Users user);
 

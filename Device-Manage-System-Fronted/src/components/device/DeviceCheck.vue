@@ -6,10 +6,10 @@
 
 <script>
   export default {
-    name: "Home"
+    name: "DeviceCheck"
   }
 </script>
 
-<style scoped>
+<style>
 
 </style>

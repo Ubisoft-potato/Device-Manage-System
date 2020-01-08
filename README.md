@@ -16,7 +16,7 @@ api文档生成工具: swagger2
 ```
 ### 前端技术栈
 ```
-页面开发:Vue 
+页面开发:Vue + element ui
 js http客户端 : axios 
 页面部署: nginx
 ```
