@@ -5,56 +5,59 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
  * <p>
- * 用户
+ * 预约登记
  * </p>
  *
  * @author Long
- * @since 2020-01-04
+ * @since 2020-01-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("users")
-public class Users {
+@TableName("reservation_device")
+public class ReservationDevice {
 
     /**
      * 主键
      */
     @TableId(type = IdType.ASSIGN_ID)
-    @NotNull
     private Long id;
     /**
-     * 账号
+     * 设备id
      */
-    private String username;
+    private Long deviceId;
     /**
-     * 密码
+     * 用户id
      */
-    private String password;
+    private Long userId;
     /**
-     * 学号或工号
+     * 预约状态
      */
-    private String workId;
+    private String state;
     /**
-     * 真实人名
+     * 预约原因
      */
-    private String realName;
+    private String reservationReason;
     /**
-     * 电话
+     * 使用开始时间
      */
-    private String telPhone;
+    private LocalDateTime startTime;
     /**
-     * 所属学院
+     * 使用到期时间
      */
-    private String institute;
+    private LocalDateTime stopTime;
     /**
-     * 创建时间
+     * 审核失败原因
+     */
+    private String failReason;
+    /**
+     * 预约创建时间
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+
 }

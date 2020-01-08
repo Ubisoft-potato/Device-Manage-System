@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasAuthority('USER')")
 public class UsersController {
 
 
@@ -93,7 +92,13 @@ public class UsersController {
                 .collect(Collectors.toList()));
     }
 
-
+    /**
+     * 添加管理员
+     *
+     * @param userInfo
+     * @return
+     * @throws ServiceException
+     */
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping("/addAdminUser")
     public boolean addAdminUser(@Validated @RequestBody UserInfo userInfo) throws ServiceException {

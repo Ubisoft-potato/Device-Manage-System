@@ -21,8 +21,6 @@ import lombok.experimental.Accessors;
 @TableName("authorities")
 public class Authorities {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * 主键
      */
