@@ -3,8 +3,7 @@
     <el-aside>
       <el-menu
         default-active="'/deviceTable'"
-        router
-        class="el-menu-vertical-demo">
+        router>
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-s-operation"/>

@@ -161,15 +161,14 @@ public class UsersController {
     @ApiOperation(value = "分页查询所有用户")
     public IPage<UserInfo> page(@NotNull @RequestBody Page<Users> page, @NotBlank @PathVariable String authority) {
         IPage<Users> pageByAuthority = usersService.getUserPageByAuthority(page, authority);
-        List<UserInfo> userInfos = pageByAuthority.getRecords().stream()
-                .map(userConverter::toUserInfo)
-                .collect(Collectors.toList());
         return new Page<UserInfo>()
                 .setCurrent(pageByAuthority.getCurrent())
-                .setRecords(userInfos)
                 .setSize(pageByAuthority.getSize())
                 .setTotal(pageByAuthority.getTotal())
-                .setPages(pageByAuthority.getPages());
+                .setPages(pageByAuthority.getPages())
+                .setRecords(pageByAuthority.getRecords().stream()
+                        .map(userConverter::toUserInfo)
+                        .collect(Collectors.toList()));
     }
 
 

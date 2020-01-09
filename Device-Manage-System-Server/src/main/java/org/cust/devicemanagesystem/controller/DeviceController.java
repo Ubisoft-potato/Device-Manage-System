@@ -6,14 +6,17 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
 import org.cust.devicemanagesystem.exception.ServiceException;
+import org.cust.devicemanagesystem.mapstruct.DeviceConverter;
 import org.cust.devicemanagesystem.model.Device;
 import org.cust.devicemanagesystem.service.IDeviceService;
+import org.cust.devicemanagesystem.vo.DeviceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +35,7 @@ public class DeviceController {
 
     private IDeviceService deviceService;
 
+    private DeviceConverter deviceConverter;
 
     /**
      * 新增
@@ -51,8 +55,8 @@ public class DeviceController {
      */
     @ApiOperation("删除设备")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
-    @DeleteMapping("/deleteDevice")
-    public boolean delete(@NotBlank String id) {
+    @DeleteMapping("/deleteDevice/{id}")
+    public boolean delete(@NotBlank @PathVariable String id) {
         return deviceService.removeById(id);
     }
 
@@ -82,17 +86,17 @@ public class DeviceController {
      * 分页查询
      */
     @ApiOperation("分页查询设备")
-    @GetMapping("/page")
-    public IPage<Device> page(Page<Device> page, Device device) {
-        QueryWrapper<Device> wp = new QueryWrapper<>();
-        //todo init wp
-        return deviceService.page(page, wp);
+    @PostMapping("/page")
+    public IPage<DeviceVo> page(@NotNull @RequestBody Page<DeviceVo> page) {
+        return deviceService.queryDevicePage(page);
     }
 
 
     @Autowired
-    public DeviceController(IDeviceService deviceService) {
+    public DeviceController(IDeviceService deviceService,
+                            DeviceConverter deviceConverter) {
         this.deviceService = deviceService;
+        this.deviceConverter = deviceConverter;
     }
 }
 

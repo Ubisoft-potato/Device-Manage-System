@@ -5,26 +5,32 @@
       style="width: 100%">
       <el-table-column
         label="用户名"
+        align="center"
         prop="username">
       </el-table-column>
       <el-table-column
         label="姓名"
+        align="center"
         prop="realName">
       </el-table-column>
       <el-table-column
         label="工号或学号"
+        align="center"
         prop="workId">
       </el-table-column>
       <el-table-column
         label="所属学院"
+        align="center"
         prop="institute">
       </el-table-column>
       <el-table-column
         label="联系电话"
+        align="center"
         prop="telPhone">
       </el-table-column>
       <el-table-column
         label="创建日期"
+        align="center"
         prop="createTime">
       </el-table-column>
       <el-table-column
@@ -48,7 +54,7 @@
       :current-page="pageCondition.current"
       :page-size="pageCondition.size"
       :total="total"
-      :page-sizes="[2, 10, 15, 20]"
+      :page-sizes="[5, 10, 15, 20]"
       @next-click="nextPage"
       @prev-click="prevPage"
       @current-change="currentChange"
@@ -121,7 +127,7 @@
         tableData: [],
         pageCondition: {
           current: 1,
-          size: 2
+          size: 5
         },
         search: ''
       }
@@ -186,6 +192,7 @@
                   type: "success"
                 })
                 delete this.tableData[index]
+                this.total--
               } else {
                 this.$message({
                   showClose: true,

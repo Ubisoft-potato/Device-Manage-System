@@ -112,6 +112,7 @@
         this.$refs[device].validate((valid) => {
           this.addDeviceLoading = true
           if (valid) {
+           console.log(this.device)
             this.$axios.post("/device/addNewDevice", this.device)
               .then(res => {
                 if (res.data === true) {

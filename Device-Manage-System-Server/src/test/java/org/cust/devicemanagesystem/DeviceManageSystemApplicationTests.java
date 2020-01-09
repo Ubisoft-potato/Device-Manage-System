@@ -1,5 +1,6 @@
 package org.cust.devicemanagesystem;
 
+import org.cust.devicemanagesystem.mapper.DeviceMapper;
 import org.cust.devicemanagesystem.mapper.UsersMapper;
 import org.cust.devicemanagesystem.model.Authorities;
 import org.cust.devicemanagesystem.model.AuthorityCodeEnum;
@@ -26,6 +27,9 @@ public class DeviceManageSystemApplicationTests {
     private UsersMapper mapper;
 
     @Autowired
+    private DeviceMapper deviceMapper;
+
+    @Autowired
     private IAuthoritiesService authoritiesService;
 
     @Test
@@ -44,5 +48,9 @@ public class DeviceManageSystemApplicationTests {
         authoritiesService.saveBatch(Arrays.asList(new Authorities().setAuthority(AuthorityCodeEnum.SUPER_ADMIN.toString()).setUserId(1213699955961700354L),
                 new Authorities().setAuthority(AuthorityCodeEnum.ADMIN.toString()).setUserId(1213699955961700354L),
                 new Authorities().setAuthority(AuthorityCodeEnum.USER.toString()).setUserId(1213699955961700354L)));
+    }
+
+    @Test
+    public void joinTest() {
     }
 }

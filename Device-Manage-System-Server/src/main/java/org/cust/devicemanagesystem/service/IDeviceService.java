@@ -1,7 +1,9 @@
 package org.cust.devicemanagesystem.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.cust.devicemanagesystem.model.Device;
+import org.cust.devicemanagesystem.vo.DeviceVo;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import org.cust.devicemanagesystem.model.Device;
  */
 public interface IDeviceService extends IService<Device> {
 
+    IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page);
 }
