@@ -53,7 +53,7 @@ public class Device {
     /**
      * 当前是否可用
      */
-    private Boolean available;
+    private Boolean availableState;
     /**
      * 创建时间
      */

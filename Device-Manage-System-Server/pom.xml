@@ -13,6 +13,12 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>device-manage-system</name>
     <description>DeviceManageSystem</description>
+    <repositories>
+        <repository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
     <properties>
         <java.version>1.8</java.version>
@@ -69,10 +75,11 @@
             <scope>test</scope>
         </dependency>
         <!--mybatis plus-->
+        <!--快照版 解决javaBean boolean 值属性 问题-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.1.8-SNAPSHOT</version>
         </dependency>
         <!--mapStruct-->
         <dependency>

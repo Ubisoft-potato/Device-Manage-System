@@ -2,8 +2,10 @@ package org.cust.devicemanagesystem.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
+import org.cust.devicemanagesystem.exception.ServiceException;
 import org.cust.devicemanagesystem.model.Device;
 import org.cust.devicemanagesystem.service.IDeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -36,7 +39,10 @@ public class DeviceController {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @PostMapping("/addNewDevice")
     @ApiOperation("添加设备")
-    public boolean save(@Validated @RequestBody Device device) {
+    public boolean save(@Validated @RequestBody Device device) throws ServiceException {
+        if (Objects.nonNull(deviceService.getOne(Wrappers.lambdaQuery(new Device()).eq(Device::getSerialNumber, device.getSerialNumber())))) {
+            throw new ServiceException().setMessage("序列号已存在，请重新输入").setCode("400");
+        }
         return deviceService.save(device);
     }
 

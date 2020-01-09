@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServiceException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage serviceExceptionHandler(ServiceException e) {
-        return new ResponseMessage().setHttpCode("400").setMessage(e.getMessage());
+        return new ResponseMessage().setHttpCode(e.getCode()).setMessage(e.getMessage());
     }
 
     /**

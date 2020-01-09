@@ -1,5 +1,5 @@
 <template>
-  <el-card class="addDevice-container">
+  <el-card class="addDevice-container" :loading="addDeviceLoading" element-loading-text="添加中...">
     <h3 class="addDevice-title">添加设备</h3>
     <el-form :model="device" :rules="rules" ref="device" label-width="100px">
       <el-form-item label="设备名称" prop="name">
@@ -12,8 +12,9 @@
         <el-input placeholder="请输入设备类型" v-model="device.type"/>
       </el-form-item>
       <el-form-item label="负责人" prop="manager">
-        <el-select style="left: 1px; width: 360px"
+        <el-select style="left: 1px; width: 370px"
                    v-model="device.manager"
+                   @change="selectGet"
                    clearable
                    filterable
                    placeholder="请选择负责人">
@@ -34,12 +35,14 @@
                   v-model="device.description"/>
       </el-form-item>
       <el-form-item label="租用单价" prop="price">
-        <el-input placeholder="请选择设备租用单价" v-model="device.price"/>
+        <el-input placeholder="请输入设备租用单价" v-model="device.price">
+          <template slot="append">元/天</template>
+        </el-input>
       </el-form-item>
       <el-form-item label="当前是否可用" prop="available">
         <el-switch
           style="position: relative;right: 160px"
-          v-model="device.available"
+          v-model="device.availableState"
           active-color="#13ce66"
           inactive-color="#ff4949">
         </el-switch>
@@ -57,6 +60,7 @@
     name: "AddDevice",
     data() {
       return {
+        addDeviceLoading: false,
         admins: [],
         device: {
           name: "",
@@ -65,7 +69,7 @@
           manager: "",
           description: "",
           price: "",
-          available: false,
+          availableState: false,
         },
         rules: {
           name: [{required: true, message: '请输入设备名称', trigger: 'blur'}],
@@ -73,7 +77,7 @@
           type: [{required: true, message: '请输入设备类型', trigger: 'blur'}],
           manager: [{required: true, message: '请选择设备负责人', trigger: 'blur'}],
           description: [{required: true, message: '请输入设备描述', trigger: 'blur'}],
-          price: [{required: true, message: '请选择设备单价', trigger: 'blur'}]
+          price: [{required: true, message: '请输入设备单价', trigger: 'blur'}]
         }
       }
     },
@@ -100,10 +104,35 @@
         })
     },
     methods: {
+      selectGet(userId) {
+        console.log("userId : ", userId)
+        this.device.manager = userId
+      },
       submitForm(device) {
         this.$refs[device].validate((valid) => {
+          this.addDeviceLoading = true
           if (valid) {
-            alert('submit!');
+            this.$axios.post("/device/addNewDevice", this.device)
+              .then(res => {
+                if (res.data === true) {
+                  this.$message({
+                    showClose: true,
+                    message: "添加成功",
+                    type: "success"
+                  })
+                }
+                if (res.data["httpCode"] === "400") {
+                  this.$message({
+                    showClose: true,
+                    message: res.data["message"],
+                    type: "error"
+                  })
+                }
+                this.addDeviceLoading = false
+              })
+              .catch(error => {
+                this.addDeviceLoading = false
+              })
           } else {
             console.log('error submit!!');
             return false;
@@ -112,7 +141,7 @@
       },
       resetForm(device) {
         this.$refs[device].resetFields();
-        this.device.available = false
+        this.device.availableState = false
       }
     }
   }
