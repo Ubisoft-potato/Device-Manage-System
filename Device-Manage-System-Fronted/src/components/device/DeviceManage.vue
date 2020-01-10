@@ -15,7 +15,6 @@
           <el-menu-item index="1-2" :index="'/addDevice'">
             <i class="el-icon-circle-plus-outline"/>增加设备
           </el-menu-item>
-
         </el-submenu>
         <el-menu-item :index="'/deviceCheck'">
           <i class="el-icon-s-check"/>

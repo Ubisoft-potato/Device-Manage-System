@@ -11,6 +11,7 @@ import DeviceManage from "../components/device/DeviceManage";
 import DeviceTable from "../components/device/DeviceTable";
 import DeviceCheck from "../components/device/DeviceCheck";
 import AddDevice from "../components/device/AddDevice";
+import PublicTable from "../components/device/PublicTable";
 
 Vue.use(Router)
 
@@ -39,6 +40,13 @@ export default new Router({
           path: '/home',
           name: 'home',
           component: Home,
+          children: [
+            {
+              path: '/publicTable',
+              name: 'PublicTable',
+              component: PublicTable,
+            }
+          ],
           meta: {
             requireAuth: true
           }
