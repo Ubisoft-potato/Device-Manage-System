@@ -102,6 +102,53 @@
 
       </el-pagination>
     </el-card>
+    <el-dialog title="编辑设备信息" :visible.sync="dialogFormVisible" width="510px" v-loading="dialogLoading">
+      <el-form status-icon label-width=auto :model="device" ref="user" :rules="rules">
+        <el-form-item label='设备名称' prop="name">
+          <el-input placeholder="请输入设备名称" v-model="device.name"/>
+        </el-form-item>
+        <el-form-item label='设备类型' prop="type">
+          <el-input placeholder="请输入设备类型" v-model="device.type"/>
+        </el-form-item>
+        <el-form-item label='设备序列号' prop="serialNumber">
+          <el-input placeholder="请输入设备序列号" v-model="device.serialNumber"/>
+        </el-form-item>
+        <el-form-item label='设备描述' prop="description">
+          <el-input placeholder="请输入设备描述" v-model="device.description"/>
+        </el-form-item>
+        <el-form-item label="负责人" prop="manager">
+          <el-select style="left: 1px; width: 375px"
+                     value=""
+                     @change="selectGet"
+                     clearable
+                     filterable
+                     placeholder="请选择负责人">
+            <el-option
+              v-model="device"
+              v-for="(item,index) in admins"
+              :key="index"
+              :label="item.realName+' : '+ item.institute"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label='设备单价' prop="price">
+          <el-input placeholder="请输入单价" v-model="device.price"/>
+        </el-form-item>
+        <el-form-item label="当前是否可用" prop="available">
+          <el-switch
+            style="position: relative;"
+            v-model="device.availableState"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmEdit">确 定 修 改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -110,9 +157,38 @@
     name: "DeviceTable",
     mounted() {
       this.queryDevicePage()
+      let user = this.$store.state.user;
+      if (user instanceof Object) {
+      } else {
+        user = JSON.parse(user)
+      }
+      this.$axios.get("/users/list/" + user.institute)
+        .then(res => {
+          console.log(res.data)
+          this.admins = res.data.map(item => {
+            return {
+              id: item.id,
+              realName: item.realName,
+              institute: item.institute
+            }
+          });
+
+        })
+        .catch(error => {
+
+        })
     },
     data() {
+      const validateNull = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('此为必填项'));
+        } else {
+          callback()
+        }
+      };
       return {
+        dialogLoading: false,
+        dialogFormVisible: false,
         loading: false,
         search: "",
         total: 0,
@@ -120,10 +196,25 @@
           current: 1,
           size: 5
         },
-        devices: []
+        admins: [],
+        devices: [],
+        device: {},
+        rules: {
+          name: [{validator: validateNull, trigger: 'blur'}],
+          type: [{validator: validateNull, trigger: 'blur'}],
+          serialNumber: [{validator: validateNull, trigger: 'blur'}],
+          manager: [{validator: validateNull, trigger: 'blur'}],
+          price: [{validator: validateNull, trigger: 'blur'}],
+          description: [{validator: validateNull, trigger: 'blur'}]
+        },
+
       }
     },
     methods: {
+      selectGet(userId) {
+        console.log("userId : ", userId)
+        this.device.manager = userId
+      },
       queryDevicePage() {
         this.$axios.post("device/page", this.pageCondition)
           .then(res => {
@@ -133,6 +224,9 @@
           .catch(error => {
 
           })
+      },
+      confirmEdit() {
+
       },
       handleConfirm(index, row) {
         console.log(row);
@@ -161,6 +255,16 @@
       },
       handleEdit(index, row) {
         console.log(index, row);
+        this.dialogFormVisible = true
+        this.$axios.get("/device/getDevice/" + row.id)
+          .then(res => {
+            this.device = res.data
+            this.device.manager = ""
+            console.log(this.device)
+          })
+          .catch(error => {
+
+          })
       },
       handleDelete(index, row) {
         console.log(index, row);

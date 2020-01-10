@@ -37,6 +37,13 @@ public class DeviceController {
 
     private DeviceConverter deviceConverter;
 
+
+    @GetMapping("/getDevice/{id}")
+    @ApiOperation("根据id查询设备信息")
+    public DeviceVo getDeviceById(@PathVariable @NotBlank String id) {
+        return deviceService.getDeviceInfoById(id);
+    }
+
     /**
      * 新增
      */

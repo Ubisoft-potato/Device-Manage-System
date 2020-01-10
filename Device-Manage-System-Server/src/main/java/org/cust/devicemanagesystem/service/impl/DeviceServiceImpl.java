@@ -23,6 +23,11 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
     private DeviceMapper deviceMapper;
 
     @Override
+    public DeviceVo getDeviceInfoById(String id) {
+        return deviceMapper.getDeviceById(id);
+    }
+
+    @Override
     public IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page) {
         return deviceMapper.getDeviceVoPage(page);
     }
