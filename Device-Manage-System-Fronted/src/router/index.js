@@ -12,6 +12,7 @@ import DeviceTable from "../components/device/DeviceTable";
 import DeviceCheck from "../components/device/DeviceCheck";
 import AddDevice from "../components/device/AddDevice";
 import PublicTable from "../components/device/PublicTable";
+import DeviceReservation from "../components/device/DeviceReservation";
 
 Vue.use(Router)
 
@@ -45,6 +46,11 @@ export default new Router({
               path: '/publicTable',
               name: 'PublicTable',
               component: PublicTable,
+            },
+            {
+              path: '/deviceReservation',
+              name: 'DeviceReservation',
+              component: DeviceReservation,
             }
           ],
           meta: {

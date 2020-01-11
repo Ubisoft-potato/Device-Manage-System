@@ -4,11 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
+import org.cust.devicemanagesystem.model.ReservationCodeEnum;
 import org.cust.devicemanagesystem.model.ReservationDevice;
 import org.cust.devicemanagesystem.service.IReservationDeviceService;
+import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -33,8 +37,9 @@ public class ReservationDeviceController {
      */
     @PostMapping("/addNewReservation")
     @ApiOperation("保存预约信息")
-    public boolean save(ReservationDevice reservationDevice) {
-        return reservationDeviceService.save(reservationDevice);
+    public boolean save(@RequestBody @Validated ReservationDevice reservationDevice) {
+        return reservationDeviceService.save(reservationDevice.setFailReason("")
+                .setState(ReservationCodeEnum.CHECKING.toString()));
     }
 
     /**
@@ -70,12 +75,10 @@ public class ReservationDeviceController {
     /**
      * 分页查询
      */
-    @GetMapping("/page")
+    @PostMapping("/page")
     @ApiOperation("分页查询预约信息")
-    public IPage<ReservationDevice> page(Page<ReservationDevice> page, ReservationDevice reservationDevice) {
-        QueryWrapper<ReservationDevice> wp = new QueryWrapper<>();
-        //todo init wp
-        return reservationDeviceService.page(page, wp);
+    public IPage<ReservationDeviceVo> page(@RequestBody @NotNull Page<ReservationDeviceVo> page) {
+        return reservationDeviceService.queryReservationPage(page);
     }
 
 

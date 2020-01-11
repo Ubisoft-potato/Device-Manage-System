@@ -1,9 +1,12 @@
 package org.cust.devicemanagesystem.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.cust.devicemanagesystem.mapper.ReservationDeviceMapper;
 import org.cust.devicemanagesystem.model.ReservationDevice;
 import org.cust.devicemanagesystem.service.IReservationDeviceService;
+import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +20,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservationDeviceServiceImpl extends ServiceImpl<ReservationDeviceMapper, ReservationDevice> implements IReservationDeviceService {
 
+    private ReservationDeviceMapper reservationDeviceMapper;
+
+    @Override
+    public IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page) {
+        return reservationDeviceMapper.queryReservationPage(page);
+    }
+
+    @Autowired
+    public ReservationDeviceServiceImpl(ReservationDeviceMapper reservationDeviceMapper) {
+        this.reservationDeviceMapper = reservationDeviceMapper;
+    }
 }

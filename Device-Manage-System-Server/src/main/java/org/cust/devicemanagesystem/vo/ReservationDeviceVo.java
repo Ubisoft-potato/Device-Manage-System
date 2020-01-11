@@ -1,12 +1,9 @@
-package org.cust.devicemanagesystem.model;
+package org.cust.devicemanagesystem.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -20,24 +17,20 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("reservation_device")
-public class ReservationDevice {
+public class ReservationDeviceVo {
 
     /**
      * 主键
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
     /**
-     * 设备id
+     * 设备
      */
-    @NotNull
-    private Long deviceId;
+    private DeviceVo device;
     /**
      * 用户id
      */
-    @NotNull
-    private Long userId;
+    private UserInfo user;
     /**
      * 预约状态
      */
@@ -45,17 +38,14 @@ public class ReservationDevice {
     /**
      * 预约原因
      */
-    @NotBlank
     private String reservationReason;
     /**
      * 使用开始时间
      */
-    @NotNull
     private LocalDateTime startTime;
     /**
      * 使用到期时间
      */
-    @NotNull
     private LocalDateTime stopTime;
     /**
      * 审核失败原因
@@ -64,7 +54,6 @@ public class ReservationDevice {
     /**
      * 预约创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
 }

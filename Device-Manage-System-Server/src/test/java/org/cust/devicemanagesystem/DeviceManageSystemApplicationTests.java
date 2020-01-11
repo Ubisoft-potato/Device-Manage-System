@@ -1,11 +1,15 @@
 package org.cust.devicemanagesystem;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.cust.devicemanagesystem.mapper.DeviceMapper;
+import org.cust.devicemanagesystem.mapper.ReservationDeviceMapper;
 import org.cust.devicemanagesystem.mapper.UsersMapper;
 import org.cust.devicemanagesystem.model.Authorities;
 import org.cust.devicemanagesystem.model.AuthorityCodeEnum;
 import org.cust.devicemanagesystem.model.Users;
 import org.cust.devicemanagesystem.service.IAuthoritiesService;
+import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DeviceManageSystemApplication.class)
 public class DeviceManageSystemApplicationTests {
@@ -28,6 +33,9 @@ public class DeviceManageSystemApplicationTests {
 
     @Autowired
     private DeviceMapper deviceMapper;
+
+    @Autowired
+    private ReservationDeviceMapper reservationDeviceMapper;
 
     @Autowired
     private IAuthoritiesService authoritiesService;
@@ -52,5 +60,6 @@ public class DeviceManageSystemApplicationTests {
 
     @Test
     public void joinTest() {
+        System.out.println(reservationDeviceMapper.queryReservationPage(new Page<ReservationDeviceVo>().setCurrent(1).setSize(5)).getRecords());
     }
 }

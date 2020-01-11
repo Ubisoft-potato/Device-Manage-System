@@ -80,7 +80,10 @@
                       effect="dark"
                       content="预约设备"
                       placement="top">
-            <el-button type="success" icon="el-icon-s-claim" @click="handleDeviceOrder(scope.$index, scope.row)"
+            <el-button type="success"
+                       :disabled="!scope.row.availableState"
+                       icon="el-icon-s-claim"
+                       @click="handleDeviceOrder(scope.$index, scope.row)"
                        circle/>
           </el-tooltip>
         </template>
@@ -166,6 +169,12 @@
     methods: {
       handleDeviceOrder(index, row) {
         console.log(row)
+        this.$router.push({
+          name: 'DeviceReservation',
+          params: {
+            device: row
+          }
+        })
       },
       handleShowInfo(index, row) {
         console.log(row)
