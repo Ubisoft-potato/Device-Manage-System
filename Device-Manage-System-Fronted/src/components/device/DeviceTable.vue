@@ -118,13 +118,12 @@
         </el-form-item>
         <el-form-item label="负责人" prop="manager">
           <el-select style="left: 1px; width: 375px"
-                     value=""
+                     v-model="device.manager"
                      @change="selectGet"
                      clearable
                      filterable
                      placeholder="请选择负责人">
             <el-option
-              v-model="device"
               v-for="(item,index) in admins"
               :key="index"
               :label="item.realName+' : '+ item.institute"
@@ -226,7 +225,32 @@
           })
       },
       confirmEdit() {
-
+        console.log(this.device)
+        this.dialogLoading = true
+        if (/.*[\u4e00-\u9fa5]+.*$/.test(this.device.manager)) {
+          console.log("未更新管理员")
+          delete this.device.manager
+        }
+        this.$axios.put("/device/updateDevice", this.device)
+          .then(res => {
+            if (res.data) {
+              this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success"
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: "更新失败，请稍后再试",
+                type: "error"
+              })
+            }
+            this.dialogLoading = false
+          })
+          .catch(error => {
+            this.dialogLoading = false
+          })
       },
       handleConfirm(index, row) {
         console.log(row);
@@ -259,7 +283,7 @@
         this.$axios.get("/device/getDevice/" + row.id)
           .then(res => {
             this.device = res.data
-            this.device.manager = ""
+            this.device.manager = this.device.manager.realName + " : " + this.device.manager.institute
             console.log(this.device)
           })
           .catch(error => {
