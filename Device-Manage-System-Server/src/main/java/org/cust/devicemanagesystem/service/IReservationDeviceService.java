@@ -15,6 +15,6 @@ import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
  */
 public interface IReservationDeviceService extends IService<ReservationDevice> {
 
-    IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page);
+    IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page,String state,String userId);
 
 }

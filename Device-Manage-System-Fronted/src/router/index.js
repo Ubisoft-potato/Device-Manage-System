@@ -6,13 +6,14 @@ import UserCenter from "@/components/user/UserCenter"
 import Home from "@/components/Home"
 import Register from "../components/Register";
 import UserManage from "../components/user/UserManage";
-import WaitForCheck from "../components/device/WaitForCheck";
 import DeviceManage from "../components/device/DeviceManage";
 import DeviceTable from "../components/device/DeviceTable";
 import DeviceCheck from "../components/device/DeviceCheck";
 import AddDevice from "../components/device/AddDevice";
 import PublicTable from "../components/device/PublicTable";
 import DeviceReservation from "../components/device/DeviceReservation";
+import ReservationHistory from "../components/device/ReservationHistory";
+import ReservationTable from "../components/device/ReservationTable";
 
 Vue.use(Router)
 
@@ -74,9 +75,9 @@ export default new Router({
           }
         },
         {
-          path: '/waitForCheck',
-          name: 'WaitForCheck',
-          component: WaitForCheck,
+          path: '/reservationHistory',
+          name: 'ReservationHistory',
+          component: ReservationHistory,
           meta: {
             requireAuth: true
           }

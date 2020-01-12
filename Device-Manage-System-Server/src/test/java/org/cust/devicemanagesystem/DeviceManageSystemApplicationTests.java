@@ -60,6 +60,6 @@ public class DeviceManageSystemApplicationTests {
 
     @Test
     public void joinTest() {
-        System.out.println(reservationDeviceMapper.queryReservationPage(new Page<ReservationDeviceVo>().setCurrent(1).setSize(5)).getRecords());
+        System.out.println(reservationDeviceMapper.queryReservationPage(new Page<ReservationDeviceVo>().setCurrent(1).setSize(5),"CHECKING","1215085298749313026").getRecords());
     }
 }

@@ -2,10 +2,7 @@ package org.cust.devicemanagesystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.cust.devicemanagesystem.config.handler.StringIdHandler;
 import org.cust.devicemanagesystem.model.ReservationDevice;
 import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
@@ -35,7 +32,7 @@ public interface ReservationDeviceMapper extends BaseMapper<ReservationDevice> {
             @Result(property = "device.name", column = "dname"),
             @Result(property = "device.type", column = "dtype"),
             @Result(property = "device.serialNumber", column = "dserial_number"),
-            @Result(property = "device.manager.id", column = "suid",typeHandler = StringIdHandler.class),
+            @Result(property = "device.manager.id", column = "suid", typeHandler = StringIdHandler.class),
             @Result(property = "device.manager.realName", column = "sureal_name"),
             @Result(property = "device.manager.telPhone", column = "sutel_phone"),
             @Result(property = "device.manager.institute", column = "suinstitute"),
@@ -47,7 +44,8 @@ public interface ReservationDeviceMapper extends BaseMapper<ReservationDevice> {
             @Result(property = "user.telPhone", column = "utel_phone"),
             @Result(property = "user.realName", column = "ureal_name"),
     })
-    @Select("SELECT \n" +
+    @Select("<script>" +
+            "SELECT \n" +
             "  temp.*,\n" +
             "  su.id AS suid,\n" +
             "  su.real_name AS sureal_name,\n" +
@@ -80,9 +78,17 @@ public interface ReservationDeviceMapper extends BaseMapper<ReservationDevice> {
             "    JOIN device d \n" +
             "      ON rd.device_id = d.id \n" +
             "    JOIN users u \n" +
-            "      ON rd.user_id = u.id) temp \n" +
+            "      ON rd.user_id = u.id \n" +
+            " <if test='state != null'>" +
+            "    WHERE rd.state = #{state} \n" +
+            " </if>" +
+            " <if test='userId != null'>" +
+            "    AND rd.user_id = #{userId} \n" +
+            " </if>" +
+            ") temp" +
             "  JOIN users su \n" +
-            "    ON temp.dmanager = su.id ")
-    IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page);
+            "    ON temp.dmanager = su.id " +
+            "</script>")
+    IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page, @Param("state") String state, @Param("userId") String userId);
 
 }

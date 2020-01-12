@@ -22,9 +22,10 @@ public class ReservationDeviceServiceImpl extends ServiceImpl<ReservationDeviceM
 
     private ReservationDeviceMapper reservationDeviceMapper;
 
+
     @Override
-    public IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page) {
-        return reservationDeviceMapper.queryReservationPage(page);
+    public IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page, String state, String userId) {
+        return reservationDeviceMapper.queryReservationPage(page, state, userId);
     }
 
     @Autowired

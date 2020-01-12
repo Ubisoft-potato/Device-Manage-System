@@ -47,7 +47,7 @@
         user: {},
         navList: [
           {name: '/home', navItem: '首页'},
-          {name: '/waitForCheck', navItem: '待审核'},
+          {name: '/reservationHistory', navItem: '设备预约历史'},
           {name: '/userCenter', navItem: '个人中心'}
         ],
       }

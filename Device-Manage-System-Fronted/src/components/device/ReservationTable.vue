@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="deviceCheck">
+    <el-card class="deviceCheck" v-loading="loading" element-loading-text="请求中...">
       <el-table
         :data="reservations.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         style="width: 100%">
@@ -11,7 +11,7 @@
           <template slot-scope="scope">
             <el-date-picker
               disabled
-              style="width: 160px"
+              style="width: 159px"
               v-model="scope.row.createTime"
               type="date">
             </el-date-picker>
@@ -62,7 +62,7 @@
           <template slot-scope="scope">
             <el-date-picker
               disabled
-              style="width: 158px"
+              style="width: 157px"
               v-model="scope.row.startTime"
               type="date">
             </el-date-picker>
@@ -75,7 +75,7 @@
           <template slot-scope="scope">
             <el-date-picker
               disabled
-              style="width: 158px"
+              style="width: 157px"
               v-model="scope.row.stopTime"
               type="date">
             </el-date-picker>
@@ -96,12 +96,24 @@
               placeholder="输入关键字搜索"/>
           </template>
           <template slot-scope="scope">
-            <el-button type="success" :disabled="scope.row.state!=='CHECKING'" icon="el-icon-check"
-                       @click="handleAgree(scope.$index, scope.row)" circle/>
-            <el-button type="danger" :disabled="scope.row.state!=='CHECKING'" icon="el-icon-close"
-                       @click="handleDisagree(scope.$index, scope.row)" circle/>
-            <el-button type="primary" icon="el-icon-info"
-                       @click="handleDelete(scope.$index, scope.row)" circle/>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="查看审核详情"
+                        placement="top">
+              <el-button type="primary"
+                         icon="el-icon-info"
+                         @click="handleShowInfo(scope.$index, scope.row)"
+                         circle/>
+            </el-tooltip>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="删除预约记录"
+                        placement="top">
+              <el-button type="danger"
+                         icon="el-icon-delete"
+                         @click="handleDelete(scope.$index, scope.row)"
+                         circle/>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -124,12 +136,27 @@
 
 <script>
   export default {
-    name: "DeviceCheck",
+    name: "ReservationTable",
+    props: {
+      state: String
+    },
+    watch: {
+      state: function () {
+        this.queryReservationPage(this.user.id)
+      }
+    },
     mounted() {
-      this.queryReservationPage()
+      let user = this.$store.state.user;
+      if (user instanceof Object) {
+      } else {
+        user = JSON.parse(user)
+      }
+      this.user = user
     },
     data() {
       return {
+        loading: false,
+        user: {},
         total: 0,
         pageCondition: {
           current: 1,
@@ -140,8 +167,8 @@
       }
     },
     methods: {
-      queryReservationPage() {
-        this.$axios.post("reservationDevice/page", this.pageCondition)
+      queryReservationPage(userId) {
+        this.$axios.post("reservationDevice/page/" + this.state + "/" + userId, this.pageCondition)
           .then(res => {
             this.reservations = res.data.records
             this.total = res.data.total
@@ -150,52 +177,44 @@
 
           })
       },
-      handleAgree(index, row) {
-        row.state = "CHECK_SUCCESS"
-        this.$axios.put("/reservationDevice/updateReservation", row)
-          .then(res => {
-            if (res.data) {
-              this.$message({
-                showClose: true,
-                message: "审核成功",
-                type: "success"
-              })
-            } else {
-              this.$message({
-                showClose: true,
-                message: "审核失败，请稍后再试",
-                type: "error"
-              })
-            }
-          })
-          .catch(error => {
+      handleShowInfo(index, row) {
 
-          })
       },
       handleDelete(index, row) {
-
-      },
-      handleDisagree(index, row) {
-        row.state = "CHECK_FAIL"
-        this.$axios.put("/reservationDevice/updateReservation", row)
-          .then(res => {
-            if (res.data) {
-              this.$message({
-                showClose: true,
-                message: "审核成功",
-                type: "success"
-              })
-            } else {
-              this.$message({
-                showClose: true,
-                message: "审核失败，请稍后再试",
-                type: "error"
-              })
-            }
-          })
-          .catch(error => {
-
-          })
+        this.$confirm('此操作将永久删除预约记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          this.$axios.delete("/reservationDevice/deleteReservation/" + row.id)
+            .then(res => {
+              if (res.data === true) {
+                this.$message({
+                  showClose: true,
+                  message: "删除成功",
+                  type: "success"
+                })
+                delete this.reservations[index]
+                this.total--
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: "删除失败,请稍后再试",
+                  type: "error"
+                })
+              }
+              this.loading = false
+            })
+            .catch(error => {
+              this.loading = false
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       nextPage() {
         this.pageCondition.current++
@@ -214,17 +233,10 @@
         this.queryReservationPage()
       }
     }
+
   }
 </script>
 
 <style>
-  .deviceCheck {
-    position: relative;
-    top: -10px;
-  }
 
-  .pagination {
-    position: relative;
-    top: 8px;
-  }
 </style>

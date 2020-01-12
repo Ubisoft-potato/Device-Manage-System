@@ -9,6 +9,7 @@ import org.cust.devicemanagesystem.model.ReservationDevice;
 import org.cust.devicemanagesystem.service.IReservationDeviceService;
 import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +46,10 @@ public class ReservationDeviceController {
     /**
      * 通过id删除
      */
-    @DeleteMapping("/deleteReservation")
+    @DeleteMapping("/deleteReservation/{id}")
     @ApiOperation("删除预约信息")
-    public boolean delete(ReservationDevice reservationDevice) {
-        return reservationDeviceService.removeById(reservationDevice.getId());
+    public boolean delete(@PathVariable String id) {
+        return reservationDeviceService.removeById(id);
     }
 
     /**
@@ -56,7 +57,7 @@ public class ReservationDeviceController {
      */
     @PutMapping("/updateReservation")
     @ApiOperation("修改预约信息")
-    public boolean updateById(ReservationDevice reservationDevice) {
+    public boolean updateById(@RequestBody ReservationDevice reservationDevice) {
         return reservationDeviceService.updateById(reservationDevice);
     }
 
@@ -75,12 +76,18 @@ public class ReservationDeviceController {
     /**
      * 分页查询
      */
-    @PostMapping("/page")
+    @PostMapping("/page/{state}/{userId}")
     @ApiOperation("分页查询预约信息")
-    public IPage<ReservationDeviceVo> page(@RequestBody @NotNull Page<ReservationDeviceVo> page) {
-        return reservationDeviceService.queryReservationPage(page);
+    public IPage<ReservationDeviceVo> page(@RequestBody @NotNull Page<ReservationDeviceVo> page, @PathVariable String state, @PathVariable String userId) {
+        return reservationDeviceService.queryReservationPage(page, state, userId);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @PostMapping("/page")
+    @ApiOperation("分页查询预约信息")
+    public IPage<ReservationDeviceVo> adminPage(@RequestBody @NotNull Page<ReservationDeviceVo> page) {
+        return reservationDeviceService.queryReservationPage(page, null, null);
+    }
 
     @Autowired
     public ReservationDeviceController(IReservationDeviceService reservationDeviceService) {
