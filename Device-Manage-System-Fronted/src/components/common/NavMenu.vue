@@ -19,7 +19,10 @@
       {{ item.navItem }}
     </el-menu-item>
     <el-submenu style="float: right" index="user">
-      <template slot="title">{{user.realName}}</template>
+      <template slot="title">
+        <span class="el-icon-user"/>
+        {{user.realName}}
+      </template>
       <el-menu-item index="" style="text-align: center; color: #303133" disabled>{{user.institute}}</el-menu-item>
       <el-menu-item index="" style="text-align: center; color: #F56C6C" @click="logout">退出登录</el-menu-item>
     </el-submenu>

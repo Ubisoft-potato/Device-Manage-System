@@ -8,6 +8,14 @@
           label="预约时间"
           align="center"
           prop="createTime">
+          <template slot-scope="scope">
+            <el-date-picker
+              disabled
+              style="width: 160px"
+              v-model="scope.row.createTime"
+              type="date">
+            </el-date-picker>
+          </template>
         </el-table-column>
         <el-table-column
           label="设备名称"
@@ -44,17 +52,34 @@
         <el-table-column
           label="预约原因"
           align="center"
+          show-overflow-tooltip
           prop="reservationReason">
         </el-table-column>
         <el-table-column
           label="预约使用开始时间"
           align="center"
           prop="startTime">
+          <template slot-scope="scope">
+            <el-date-picker
+              disabled
+              style="width: 158px"
+              v-model="scope.row.startTime"
+              type="date">
+            </el-date-picker>
+          </template>
         </el-table-column>
         <el-table-column
           label="预约使用结束时间"
           align="center"
           prop="stopTime">
+          <template slot-scope="scope">
+            <el-date-picker
+              disabled
+              style="width: 158px"
+              v-model="scope.row.stopTime"
+              type="date">
+            </el-date-picker>
+          </template>
         </el-table-column>
         <el-table-column
           label="审核状态"

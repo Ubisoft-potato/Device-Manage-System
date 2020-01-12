@@ -50,6 +50,14 @@
           label="设备发布时间"
           align="center"
           prop="createTime">
+          <template slot-scope="scope">
+            <el-date-picker
+              disabled
+              style="width: 155px"
+              v-model="scope.row.createTime"
+              type="date">
+            </el-date-picker>
+          </template>
         </el-table-column>
         <el-table-column
           label="设备可用状态"
