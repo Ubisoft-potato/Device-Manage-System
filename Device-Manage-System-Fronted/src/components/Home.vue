@@ -12,10 +12,10 @@
               <i class="el-icon-s-platform"/>
               <span>所有设备</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="1-1" :index="'/deviceSearch'">
               <i class="el-icon-search"/>搜索设备
             </el-menu-item>
-            <el-menu-item index="1-2" :index="'publicTable'">
+            <el-menu-item index="1-2" :index="'/publicTable'">
               <i class="el-icon-view"/>浏览设备
             </el-menu-item>
           </el-submenu>

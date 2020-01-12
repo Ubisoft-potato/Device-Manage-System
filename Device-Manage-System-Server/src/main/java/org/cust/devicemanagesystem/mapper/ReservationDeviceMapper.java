@@ -37,7 +37,7 @@ public interface ReservationDeviceMapper extends BaseMapper<ReservationDevice> {
             @Result(property = "device.manager.telPhone", column = "sutel_phone"),
             @Result(property = "device.manager.institute", column = "suinstitute"),
             @Result(property = "device.price", column = "dprice"),
-            @Result(property = "device.description", column = "dprice"),
+            @Result(property = "device.description", column = "ddescription"),
             @Result(property = "device.availableState", column = "davailable_state"),
             @Result(property = "user.id", column = "uid", typeHandler = StringIdHandler.class),
             @Result(property = "user.institute", column = "uinstitute"),

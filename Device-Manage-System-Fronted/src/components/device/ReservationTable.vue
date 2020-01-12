@@ -131,6 +131,67 @@
         @size-change="handleSizeChange">
       </el-pagination>
     </el-card>
+    <el-dialog
+      title="预约状态详情"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+        <span>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备名称</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentDevice.name}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备类型</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentDevice.type}}</el-col>
+          </el-row>
+            <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备序列号</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentDevice.serialNumber}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备租用单价</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentDevice.price}} 元/天</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备描述</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentDevice.description}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">设备管理员</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentManager.realName}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">管理员联系电话</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentManager.telPhone}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">管理员所在院系</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentManager.institute}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">申请人</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentUser.realName}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">申请人所在院系</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentUser.institute}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">申请人联系电话</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentUser.telPhone}}</el-col>
+          </el-row>
+           <el-row :gutter="10" align="center">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">申请原因</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentReservation.reservationReason}}</el-col>
+          </el-row>
+          <el-row :gutter="10" align="center" v-if="this.state==='CHECK_FAIL'">
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">拒绝申请原因</el-col>
+            <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{currentReservation.failReason}}</el-col>
+          </el-row>
+
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -155,6 +216,7 @@
     },
     data() {
       return {
+        centerDialogVisible: false,
         loading: false,
         user: {},
         total: 0,
@@ -163,7 +225,11 @@
           size: 5
         },
         reservations: [],
-        search: ""
+        search: "",
+        currentManager: {},
+        currentUser: {},
+        currentReservation: {},
+        currentDevice: {}
       }
     },
     methods: {
@@ -178,7 +244,11 @@
           })
       },
       handleShowInfo(index, row) {
-
+        this.centerDialogVisible = true
+        this.currentReservation = row
+        this.currentManager = row.device.manager
+        this.currentDevice = row.device
+        this.currentUser = row.user
       },
       handleDelete(index, row) {
         this.$confirm('此操作将永久删除预约记录, 是否继续?', '提示', {

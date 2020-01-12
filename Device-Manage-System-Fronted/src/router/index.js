@@ -14,6 +14,8 @@ import PublicTable from "../components/device/PublicTable";
 import DeviceReservation from "../components/device/DeviceReservation";
 import ReservationHistory from "../components/device/ReservationHistory";
 import ReservationTable from "../components/device/ReservationTable";
+import DeviceSearch from "../components/device/DeviceSearch";
+import CostSettlement from "../components/device/CostSettlement";
 
 Vue.use(Router)
 
@@ -52,6 +54,11 @@ export default new Router({
               path: '/deviceReservation',
               name: 'DeviceReservation',
               component: DeviceReservation,
+            },
+            {
+              path: '/deviceSearch',
+              name: 'DeviceSearch',
+              component: DeviceSearch,
             }
           ],
           meta: {
