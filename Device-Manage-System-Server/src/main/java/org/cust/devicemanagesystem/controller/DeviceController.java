@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
 import org.cust.devicemanagesystem.exception.ServiceException;
-import org.cust.devicemanagesystem.mapstruct.DeviceConverter;
 import org.cust.devicemanagesystem.model.Device;
 import org.cust.devicemanagesystem.service.IDeviceService;
 import org.cust.devicemanagesystem.vo.DeviceVo;
@@ -34,8 +33,6 @@ import java.util.Objects;
 public class DeviceController {
 
     private IDeviceService deviceService;
-
-    private DeviceConverter deviceConverter;
 
 
     @GetMapping("/getDevice/{id}")
@@ -100,10 +97,8 @@ public class DeviceController {
 
 
     @Autowired
-    public DeviceController(IDeviceService deviceService,
-                            DeviceConverter deviceConverter) {
+    public DeviceController(IDeviceService deviceService) {
         this.deviceService = deviceService;
-        this.deviceConverter = deviceConverter;
     }
 }
 
