@@ -13,9 +13,7 @@ import AddDevice from "../components/device/AddDevice";
 import PublicTable from "../components/device/PublicTable";
 import DeviceReservation from "../components/device/DeviceReservation";
 import ReservationHistory from "../components/device/ReservationHistory";
-import ReservationTable from "../components/device/ReservationTable";
 import DeviceSearch from "../components/device/DeviceSearch";
-import CostSettlement from "../components/device/CostSettlement";
 
 Vue.use(Router)
 
