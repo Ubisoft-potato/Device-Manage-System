@@ -7,13 +7,13 @@ spring:
   # mysql Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.4:3306/device_manage_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.7:3306/device_manage_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     password: root
     username: root
   # redis config
   redis:
     database: 0
-    host: 192.168.1.4
+    host: 192.168.1.7
     jedis:
       pool:
         max-active: 8

@@ -1,21 +1,20 @@
 <template>
   <div>
     <el-card>
-    <el-input placeholder="请输入内容" v-model="input" class="searchClass">
-      <div slot="prepend">
-        <div class="centerClass">
-          <el-select v-model="select" placeholder="请选择" style="width: 90px">
-            <el-option label="餐厅" value="1"/>
-            <el-option label="订单" value="2"/>
-            <el-option label="用户" value="3"/>
-          </el-select>
-        </div>
-        <div class="centerClass">
-          <div class="line"></div>
-        </div>
-      </div>
-      <el-button slot="append" icon="el-icon-search"/>
-    </el-input>
+      <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+        <el-select v-model="select"
+                   clearable
+                   slot="prepend" placeholder="请选择查询条件">
+          <el-option v-for="(item,index) in searchOptions"
+                     :key="index"
+                     :label="item.label"
+                     :value="item.searchOption"/>
+        </el-select>
+        <el-button slot="append" icon="el-icon-search"/>
+      </el-input>
+      <el-table>
+
+      </el-table>
     </el-card>
   </div>
 </template>
@@ -26,6 +25,16 @@
     data() {
       return {
         input: '',
+        searchOptions: [
+          {
+            label: "设备名",
+            searchOption: "deviceName"
+          },
+          {
+            label: "设备管理员",
+            searchOption: "deviceManager"
+          }
+        ],
         select: ''
       };
     }
@@ -33,60 +42,11 @@
 </script>
 
 <style>
-  .searchClass {
-    border: 1px solid #c5c5c5;
-    border-radius: 20px;
-    background: #f4f4f4;
+  .el-select .el-input {
+    width: 155px;
   }
 
-  .searchClass .el-input-group__prepend {
-    border: none;
-    background-color: transparent;
-    padding: 0 10px 0 30px;
-  }
-
-  .searchClass .el-input-group__append {
-    border: none;
-    background-color: transparent;
-  }
-
-  .searchClass .el-input__inner {
-    height: 36px;
-    line-height: 36px;
-    border: none;
-    background-color: transparent;
-  }
-
-  .searchClass .el-icon-search {
-    font-size: 16px;
-  }
-
-  .searchClass .centerClass {
-    height: 100%;
-    line-height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: right;
-  }
-
-  .searchClass .line {
-    width: 1px;
-    height: 26px;
-    background-color: #c5c5c5;
-    margin-left: 14px;
-  }
-
-  .searchClass:hover {
-    border: 1px solid #D5E3E8;
-    background: #fff;
-  }
-
-  .searchClass:hover .line {
-    background-color: #D5E3E8;
-  }
-
-  .searchClass:hover .el-icon-search {
-    color: #409eff;
-    font-size: 16px;
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
   }
 </style>
