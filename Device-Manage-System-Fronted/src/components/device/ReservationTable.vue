@@ -85,6 +85,17 @@
           label="审核状态"
           align="center"
           prop="state">
+          <template slot-scope="scope">
+            <span v-if="scope.row.state === 'CHECK_FAIL'">
+              审核未通过
+            </span>
+            <span v-else-if="scope.row.state === 'CHECK_SUCCESS'">
+              审核通过
+            </span>
+            <span v-else="scope.row.state ==='CHECKING'">
+              审核中
+            </span>
+          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
