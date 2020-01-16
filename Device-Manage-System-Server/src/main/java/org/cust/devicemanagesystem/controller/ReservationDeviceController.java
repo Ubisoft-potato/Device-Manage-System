@@ -2,19 +2,27 @@ package org.cust.devicemanagesystem.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
+import org.cust.devicemanagesystem.model.CostSettlement;
+import org.cust.devicemanagesystem.model.Device;
 import org.cust.devicemanagesystem.model.ReservationCodeEnum;
 import org.cust.devicemanagesystem.model.ReservationDevice;
+import org.cust.devicemanagesystem.service.ICostSettlementService;
+import org.cust.devicemanagesystem.service.IDeviceService;
 import org.cust.devicemanagesystem.service.IReservationDeviceService;
 import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -32,6 +40,9 @@ public class ReservationDeviceController {
 
     private IReservationDeviceService reservationDeviceService;
 
+    private ICostSettlementService costSettlementService;
+
+    private IDeviceService deviceService;
 
     /**
      * 新增
@@ -55,9 +66,25 @@ public class ReservationDeviceController {
     /**
      * 修改
      */
+    @Transactional
     @PutMapping("/updateReservation")
     @ApiOperation("修改预约信息")
     public boolean updateById(@RequestBody ReservationDevice reservationDevice) {
+        if (Objects.equals(reservationDevice.getState(), "CHECK_SUCCESS")) {
+            //获取当前设备
+            Device device = deviceService.getOne(Wrappers.lambdaQuery(new Device())
+                    .eq(Device::getId, reservationDevice.getDeviceId()));
+            //计算当前租用时间
+            Duration duration = Duration.between(reservationDevice.getStartTime(), reservationDevice.getStopTime());
+            costSettlementService.save(new CostSettlement().setDeviceType(device.getType())
+                    .setDeviceName(device.getName())
+                    .setDeviceSerialNumber(device.getSerialNumber())
+                    .setState(false)
+                    .setUserId(reservationDevice.getUserId())
+                    .setReservationStartTime(reservationDevice.getStartTime())
+                    .setReservationStopTime(reservationDevice.getStopTime())
+                    .setCostSum(duration.toDays() * device.getPrice()));
+        }
         return reservationDeviceService.updateById(reservationDevice);
     }
 
@@ -90,8 +117,12 @@ public class ReservationDeviceController {
     }
 
     @Autowired
-    public ReservationDeviceController(IReservationDeviceService reservationDeviceService) {
+    public ReservationDeviceController(IReservationDeviceService reservationDeviceService,
+                                       ICostSettlementService costSettlementService,
+                                       IDeviceService deviceService) {
         this.reservationDeviceService = reservationDeviceService;
+        this.costSettlementService = costSettlementService;
+        this.deviceService = deviceService;
     }
 }
 

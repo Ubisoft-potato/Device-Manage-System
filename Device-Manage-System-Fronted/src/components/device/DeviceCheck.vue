@@ -259,6 +259,9 @@
       },
       handleAgree(index, row) {
         row.state = "CHECK_SUCCESS"
+        row.deviceId = row.device.id
+        row.userId = row.user.id
+        // console.log(row)
         this.$axios.put("/reservationDevice/updateReservation", row)
           .then(res => {
             if (res.data) {

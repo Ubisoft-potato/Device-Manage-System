@@ -12,9 +12,6 @@
         </el-select>
         <el-button slot="append" icon="el-icon-search"/>
       </el-input>
-      <el-table>
-
-      </el-table>
     </el-card>
   </div>
 </template>
