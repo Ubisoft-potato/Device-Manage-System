@@ -16,12 +16,12 @@
                   auto-complete="off" placeholder="密码"/>
       </el-form-item>
       <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; right: 30px"
+        <el-button type="success" style="width: 30%;border: none; position: relative; right: 30px"
                    round
                    @click="register">
           注册
         </el-button>
-        <el-button type="primary" style="width: 30%;background: #409EFF;border: none; position: relative; left: 30px"
+        <el-button type="primary" style="width: 30%;border: none; position: relative; left: 30px"
                    round
                    @click="login">
           登录

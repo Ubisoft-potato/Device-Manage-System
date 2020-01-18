@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <el-table
-      :data="costSettlements.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      :data="costSettlements.filter(data => !search || data.deviceName.toLowerCase().includes(search.toLowerCase()))"
       style="width: 100%">
       <el-table-column
         label="设备名称"
@@ -71,7 +71,7 @@
             placeholder="输入关键字搜索"/>
         </template>
         <template slot-scope="scope">
-          <el-button type="primary"  icon="el-icon-info"
+          <el-button type="primary" icon="el-icon-info"
                      @click="handleShowInfo(scope.$index, scope.row)" circle/>
         </template>
       </el-table-column>
@@ -96,7 +96,12 @@
   export default {
     name: "CostSettlement",
     mounted() {
-      this.queryCostPage()
+      let user = this.$store.state.user;
+      if (user instanceof Object) {
+      } else {
+        user = JSON.parse(user)
+      }
+      this.queryCostPage(user.id)
     },
     data() {
       return {
@@ -110,8 +115,8 @@
       }
     },
     methods: {
-      queryCostPage() {
-        this.$axios.post("costSettlement/page", this.pageCondition)
+      queryCostPage(userId) {
+        this.$axios.post("costSettlement/page/" + userId, this.pageCondition)
           .then(res => {
             this.costSettlements = res.data.records
             this.total = res.data.total
