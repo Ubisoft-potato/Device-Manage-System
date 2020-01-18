@@ -1009,7 +1009,7 @@
 									"font": "Arial;13;1",
 									"left": 656,
 									"top": 213,
-									"width": 293.35791015625,
+									"width": 297.794921875,
 									"height": 13,
 									"text": "cost_settlement"
 								},
@@ -1035,7 +1035,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 236,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1050,7 +1050,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 251,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1065,7 +1065,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 266,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1080,7 +1080,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 281,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1095,7 +1095,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 296,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1110,7 +1110,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 311,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1125,7 +1125,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 326,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1140,7 +1140,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 341,
-											"width": 283.35791015625,
+											"width": 287.794921875,
 											"height": 13
 										},
 										{
@@ -1155,22 +1155,52 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 356,
-											"width": 283.35791015625,
+											"width": 287.794921875,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFvuQ4LhikJTbY=",
+											"_parent": {
+												"$ref": "AAAAAAFvrO9jNeDpC08="
+											},
+											"model": {
+												"$ref": "AAAAAAFvuQ4LdCkGxoc="
+											},
+											"font": "Arial;13;0",
+											"left": 661,
+											"top": 371,
+											"width": 287.794921875,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFvuQ4N/CkPMR0=",
+											"_parent": {
+												"$ref": "AAAAAAFvrO9jNeDpC08="
+											},
+											"model": {
+												"$ref": "AAAAAAFvuQ4N8ykMarI="
+											},
+											"font": "Arial;13;0",
+											"left": 661,
+											"top": 386,
+											"width": 287.794921875,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 656,
 									"top": 231,
-									"width": 293.35791015625,
-									"height": 143
+									"width": 297.794921875,
+									"height": 173
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 656,
 							"top": 208,
-							"width": 293.35791015625,
-							"height": 166,
+							"width": 297.794921875,
+							"height": 196,
 							"nameLabel": {
 								"$ref": "AAAAAAFvrO9jNeDoWOs="
 							},
@@ -1847,6 +1877,26 @@
 							"name": "cost_sum",
 							"type": "BIGINT",
 							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFvuQ4LdCkGxoc=",
+							"_parent": {
+								"$ref": "AAAAAAFvrO9jNODlmj4="
+							},
+							"name": "device_manager_name",
+							"type": "VARCHAR",
+							"length": "50"
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFvuQ4N8ykMarI=",
+							"_parent": {
+								"$ref": "AAAAAAFvrO9jNODlmj4="
+							},
+							"name": "device_manager_contact",
+							"type": "VARCHAR",
+							"length": "18"
 						}
 					]
 				}
