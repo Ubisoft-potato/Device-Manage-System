@@ -5,13 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
-import org.cust.devicemanagesystem.model.CostSettlement;
-import org.cust.devicemanagesystem.model.Device;
-import org.cust.devicemanagesystem.model.ReservationCodeEnum;
-import org.cust.devicemanagesystem.model.ReservationDevice;
+import org.cust.devicemanagesystem.model.*;
 import org.cust.devicemanagesystem.service.ICostSettlementService;
 import org.cust.devicemanagesystem.service.IDeviceService;
 import org.cust.devicemanagesystem.service.IReservationDeviceService;
+import org.cust.devicemanagesystem.service.IUsersService;
 import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +42,8 @@ public class ReservationDeviceController {
 
     private IDeviceService deviceService;
 
+    private IUsersService usersService;
+
     /**
      * 新增
      */
@@ -74,12 +74,17 @@ public class ReservationDeviceController {
             //获取当前设备
             Device device = deviceService.getOne(Wrappers.lambdaQuery(new Device())
                     .eq(Device::getId, reservationDevice.getDeviceId()));
+            //获取当前管理员
+            Users user = usersService.getOne(Wrappers.lambdaQuery(new Users())
+                    .eq(Users::getId, device.getManager()));
             //计算当前租用时间
             Duration duration = Duration.between(reservationDevice.getStartTime(), reservationDevice.getStopTime());
             costSettlementService.save(new CostSettlement().setDeviceType(device.getType())
                     .setDeviceName(device.getName())
                     .setDeviceSerialNumber(device.getSerialNumber())
                     .setState(false)
+                    .setDeviceManagerName(user.getRealName())
+                    .setDeviceManagerContact(user.getTelPhone())
                     .setUserId(reservationDevice.getUserId())
                     .setReservationStartTime(reservationDevice.getStartTime())
                     .setReservationStopTime(reservationDevice.getStopTime())
@@ -119,10 +124,12 @@ public class ReservationDeviceController {
     @Autowired
     public ReservationDeviceController(IReservationDeviceService reservationDeviceService,
                                        ICostSettlementService costSettlementService,
-                                       IDeviceService deviceService) {
+                                       IDeviceService deviceService,
+                                       IUsersService usersService) {
         this.reservationDeviceService = reservationDeviceService;
         this.costSettlementService = costSettlementService;
         this.deviceService = deviceService;
+        this.usersService = usersService;
     }
 }
 

@@ -69,7 +69,7 @@ public class UsersController {
     }
 
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') or hasAuthority('ADMIN')")
     @GetMapping("/info/{id}")
     @ApiOperation(value = "管理员通过用户id获取用户信息")
     public UserInfo getUserInfoById(@NotBlank @PathVariable String id) {

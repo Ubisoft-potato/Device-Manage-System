@@ -14,6 +14,7 @@ import PublicTable from "../components/device/PublicTable";
 import DeviceReservation from "../components/device/DeviceReservation";
 import ReservationHistory from "../components/device/ReservationHistory";
 import DeviceSearch from "../components/device/DeviceSearch";
+import CostSettlementManage from "../components/device/CostSettlementManage";
 
 Vue.use(Router)
 
@@ -112,6 +113,14 @@ export default new Router({
               path: '/addDevice',
               name: 'AddDevice',
               component: AddDevice,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/costSettlementManage',
+              name: 'CostSettlementManage',
+              component: CostSettlementManage,
               meta: {
                 requireAuth: true
               }

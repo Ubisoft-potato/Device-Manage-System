@@ -20,6 +20,10 @@
           <i class="el-icon-s-check"/>
           <span slot="title">设备预约审核</span>
         </el-menu-item>
+        <el-menu-item :index="'/costSettlementManage'">
+          <i class="el-icon-s-finance"/>
+          <span slot="title">费用结算记录</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-main>
@@ -30,7 +34,10 @@
 
 <script>
   export default {
-    name: "DeviceManage"
+    name: "DeviceManage",
+    methods: {
+
+    }
   }
 </script>
 

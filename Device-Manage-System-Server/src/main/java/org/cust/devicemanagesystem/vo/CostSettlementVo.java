@@ -1,35 +1,29 @@
-package org.cust.devicemanagesystem.model;
+package org.cust.devicemanagesystem.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 费用结算
- * </p>
- *
- * @author Long
- * @since 2020-01-16
- */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("cost_settlement")
-public class CostSettlement {
+ * @ClassName CostSettlementVo
+ * @Description
+ * @Author long
+ * @Date 2020/1/18 21:25
+ * @Version 1.0
+ **/
 
+@Data
+@EqualsAndHashCode
+public class CostSettlementVo {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
     /**
      * 结算用户
      */
-    private Long userId;
+    private String userId;
     /**
      * 设备名
      */
@@ -61,10 +55,9 @@ public class CostSettlement {
     /**
      * 结算状态
      */
-    @NotNull
     private Boolean state;
     /**
      * 总费用
      */
-    private Long costSum;
+    private String costSum;
 }

@@ -71,10 +71,20 @@
             placeholder="输入关键字搜索"/>
         </template>
         <template slot-scope="scope">
-          <el-button type="primary"
-                     :disabled="scope.row.state"
-                     icon="el-icon-s-finance"
-                     @click="handleCost(scope.$index, scope.row)" circle/>
+          <el-tooltip class="item"
+                      effect="dark"
+                      content="确认已结算"
+                      placement="top">
+            <el-button type="success" icon="el-icon-check"
+                       @click="handleConfirm(scope.$index, scope.row)" circle/>
+          </el-tooltip>
+          <el-tooltip class="item"
+                      effect="dark"
+                      content="查看租用人信息"
+                      placement="top">
+            <el-button type="primary" icon="el-icon-info"
+                       @click="handleShowInfo(scope.$index, scope.row)" circle/>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -91,26 +101,37 @@
       @current-change="currentChange"
       @size-change="handleSizeChange">
     </el-pagination>
-    <el-dialog title="租用结算详情" :visible.sync="dialogVisible" width="510px">
-      请及时联系设备管理员( {{currentManager.deviceManagerName}} ), 电话( {{currentManager.deviceManagerContact}} )进行结算
+    <el-dialog title="设备租用人信息" :visible.sync="dialogVisible" width="510px">
+      <el-row :gutter="10" align="center">
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">租用人姓名</el-col>
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{rentUser.realName}}</el-col>
+      </el-row>
+      <el-row :gutter="10" align="center">
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">租用人所在学院</el-col>
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{rentUser.institute}}</el-col>
+      </el-row>
+      <el-row :gutter="10" align="center">
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">租用人联系电话</el-col>
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{rentUser.telPhone}}</el-col>
+      </el-row>
+      <el-row :gutter="10" align="center">
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11" class="">租用人学号或工号</el-col>
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">{{rentUser.workId}}</el-col>
+      </el-row>
     </el-dialog>
   </el-card>
 </template>
 
 <script>
   export default {
-    name: "CostSettlement",
+    name: "CostSettlementManage",
     mounted() {
-      let user = this.$store.state.user;
-      if (user instanceof Object) {
-      } else {
-        user = JSON.parse(user)
-      }
-      this.queryCostPage(user.id)
+      this.queryCostPage()
     },
     data() {
       return {
         dialogVisible: false,
+        rentUser: {},
         search: "",
         costSettlements: [],
         total: 0,
@@ -118,12 +139,11 @@
           current: 1,
           size: 5
         },
-        currentManager: {}
       }
     },
     methods: {
-      queryCostPage(userId) {
-        this.$axios.post("costSettlement/page/" + userId, this.pageCondition)
+      queryCostPage() {
+        this.$axios.post("costSettlement/page/all", this.pageCondition)
           .then(res => {
             this.costSettlements = res.data.records
             this.total = res.data.total
@@ -132,9 +152,38 @@
 
           })
       },
-      handleCost(index, row) {
-        this.currentManager = row
-        this.dialogVisible = true
+      handleConfirm(index, row) {
+        row.state = true
+        this.$axios.put("costSettlement/update", row)
+          .then(res => {
+            if (res.data === true) {
+              this.$message({
+                showClose: true,
+                message: "确认结算成功",
+                type: "success"
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: "结算失败，请稍后再试",
+                type: "error"
+              })
+            }
+          })
+          .catch(error => {
+
+          })
+      },
+      handleShowInfo(index, row) {
+        this.$axios.get("users/info/" + row.userId)
+          .then(res => {
+            this.rentUser = res.data
+            this.dialogVisible = true
+          })
+          .catch(error => {
+
+          });
+
       },
       nextPage() {
         this.pageCondition.current++

@@ -1,17 +1,18 @@
 package org.cust.devicemanagesystem.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.cust.devicemanagesystem.model.CostSettlement;
 import org.cust.devicemanagesystem.service.ICostSettlementService;
+import org.cust.devicemanagesystem.vo.CostSettlementVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -33,8 +34,8 @@ public class CostSettlementController {
     /**
      * 新增
      */
-    @PostMapping
-    public boolean save(CostSettlement costSettlement) {
+    @PostMapping("/save")
+    public boolean save(@RequestBody @Validated CostSettlement costSettlement) {
         return costSettlementService.save(costSettlement);
     }
 
@@ -49,8 +50,8 @@ public class CostSettlementController {
     /**
      * 修改
      */
-    @PutMapping
-    public boolean updateById(CostSettlement costSettlement) {
+    @PutMapping("/update")
+    public boolean updateById(@RequestBody @Validated CostSettlement costSettlement) {
         return costSettlementService.updateById(costSettlement);
     }
 
@@ -69,10 +70,12 @@ public class CostSettlementController {
      * 分页查询
      */
     @PostMapping("/page/{userId}")
-    public IPage<CostSettlement> page(@RequestBody Page<CostSettlement> page, @PathVariable String userId) {
-        LambdaQueryWrapper<CostSettlement> wrapper = Wrappers.lambdaQuery(new CostSettlement())
-                .eq(CostSettlement::getUserId, userId);
-        return costSettlementService.page(page, wrapper);
+    public IPage<CostSettlementVo> page(@RequestBody Page<CostSettlementVo> page, @PathVariable String userId) {
+        if (Objects.equals(userId, "all")) {
+            //管理员查询所有结算记录
+            return costSettlementService.queryPage(page, null);
+        }
+        return costSettlementService.queryPage(page, userId);
     }
 
 
