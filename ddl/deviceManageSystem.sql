@@ -55,6 +55,8 @@ create table users
 )
     comment '用户';
 
+
+
 create table cost_settlement
 (
     id                     bigint       not null comment '主键'
@@ -66,9 +68,13 @@ create table cost_settlement
     reservation_start_time datetime     not null comment '预约使用开始时间',
     reservation_stop_time  datetime     not null comment '预约使用到期时间',
     state                  tinyint(1)   not null comment '结算状态',
-    cost_sum               int          not null comment '总费用'
+    cost_sum               bigint       not null comment '总费用',
+    device_manager_name    varchar(50)  not null comment '设备管理员',
+    device_manager_contact varchar(18)  not null comment '设备管理员联系电话'
 )
     comment '费用结算';
+
+
 
 
 
