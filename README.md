@@ -9,10 +9,10 @@
 服务构建:springboot
 orm框架:mybatisPlus
 数据库: mysql 5.7.(docker部署)
-api文档生成工具: swagger2
+api文档生成工具: swagger2("http://host:port/swagger-ui.html")
 数据库建模工具: starUML
 
-部署方式: dockerCompose 容器化部署
+部署方式: docker 容器化部署
 ```
 ### 前端技术栈
 ```
