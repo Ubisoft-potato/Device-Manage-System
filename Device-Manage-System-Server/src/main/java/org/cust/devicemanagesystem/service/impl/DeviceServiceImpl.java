@@ -28,8 +28,10 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
     }
 
     @Override
-    public IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page) {
-        return deviceMapper.getDeviceVoPage(page);
+    public IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page,
+                                           String deviceName,
+                                           String deviceManager) {
+        return deviceMapper.getDeviceVoPage(page, deviceName, deviceManager);
     }
 
     @Autowired

@@ -153,6 +153,25 @@ public class UsersController {
                 .collect(Collectors.toList());
     }
 
+
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','USER')")
+    @GetMapping("/nameList/{firstName}")
+    @ApiOperation("查询用户姓名列表")
+    public List<String> getNameList(@PathVariable String firstName) {
+        if (Objects.equals(firstName, "all")) {
+            return usersService.list()
+                    .stream()
+                    .map(Users::getRealName)
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        return usersService.list(Wrappers.lambdaQuery(new Users()).like(Users::getRealName, firstName))
+                .stream()
+                .map(Users::getRealName)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     /**
      * 分页查询
      */

@@ -15,7 +15,9 @@ import org.cust.devicemanagesystem.vo.DeviceVo;
  */
 public interface IDeviceService extends IService<Device> {
 
-    IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page);
+    IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page,
+                                    String deviceName,
+                                    String deviceManager);
 
     DeviceVo getDeviceInfoById(String id);
 }

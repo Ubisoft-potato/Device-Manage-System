@@ -18,7 +18,8 @@ import org.cust.devicemanagesystem.vo.DeviceVo;
 @Mapper
 public interface DeviceMapper extends BaseMapper<Device> {
 
-    @Select("SELECT \n" +
+    @Select("<script>" +
+            "SELECT \n" +
             "  d.id AS did,\n" +
             "  d.name AS dname,\n" +
             "  d.type AS dtype,\n" +
@@ -37,7 +38,14 @@ public interface DeviceMapper extends BaseMapper<Device> {
             "FROM\n" +
             "  device d \n" +
             "  JOIN users u \n" +
-            "    ON u.id = d.manager ")
+            "    ON u.id = d.manager " +
+            " <if test='deviceName != null'>" +
+            " where  d.name  like  #{deviceName}" +
+            "</if>" +
+            " <if test='deviceManager != null'>" +
+            " where  u.real_name  like  #{deviceManager}" +
+            "</if>" +
+            "</script>")
     @Results({
             @Result(property = "id", column = "did", typeHandler = StringIdHandler.class),
             @Result(property = "name", column = "dname"),
@@ -55,7 +63,9 @@ public interface DeviceMapper extends BaseMapper<Device> {
             @Result(property = "availableState", column = "davailable_state"),
             @Result(property = "createTime", column = "dcreate_time"),
     })
-    IPage<DeviceVo> getDeviceVoPage(IPage<DeviceVo> page);
+    IPage<DeviceVo> getDeviceVoPage(IPage<DeviceVo> page,
+                                    @Param("deviceName") String deviceName,
+                                    @Param("deviceManager") String deviceManager);
 
     @Select("SELECT \n" +
             "  d.id AS did,\n" +

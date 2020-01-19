@@ -75,7 +75,9 @@
                       effect="dark"
                       content="确认已结算"
                       placement="top">
-            <el-button type="success" icon="el-icon-check"
+            <el-button type="success"
+                       :disabled="scope.row.state"
+                       icon="el-icon-check"
                        @click="handleConfirm(scope.$index, scope.row)" circle/>
           </el-tooltip>
           <el-tooltip class="item"

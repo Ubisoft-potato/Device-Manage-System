@@ -42,9 +42,9 @@ public class CostSettlementController {
     /**
      * 通过id删除
      */
-    @DeleteMapping
-    public boolean delete(CostSettlement costSettlement) {
-        return costSettlementService.removeById(costSettlement.getId());
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@PathVariable String id) {
+        return costSettlementService.removeById(id);
     }
 
     /**

@@ -75,6 +75,9 @@
                      :disabled="scope.row.state"
                      icon="el-icon-s-finance"
                      @click="handleCost(scope.$index, scope.row)" circle/>
+          <el-button type="danger" icon="el-icon-delete"
+                     :disabled="!scope.row.state"
+                     @click="handleDelete(scope.$index, scope.row)" circle/>
         </template>
       </el-table-column>
     </el-table>
@@ -131,6 +134,42 @@
           .catch(error => {
 
           })
+      },
+      handleDelete(index, row) {
+        this.$confirm('此操作将永久删除该结算记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          this.$axios.delete("/costSettlement/deleteDevice/" + row.id)
+            .then(res => {
+              if (res.data === true) {
+                this.$message({
+                  showClose: true,
+                  message: "删除成功",
+                  type: "success"
+                })
+                delete this.devices[index]
+                this.total--
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: "删除失败,请稍后再试",
+                  type: "error"
+                })
+              }
+              this.loading = false
+            })
+            .catch(error => {
+              this.loading = false
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       handleCost(index, row) {
         this.currentManager = row

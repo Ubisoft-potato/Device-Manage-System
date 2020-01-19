@@ -18,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,6 +35,7 @@ public class DeviceController {
 
     private IDeviceService deviceService;
 
+    private static final String SEARCH_STRING = "%";
 
     @GetMapping("/getDevice/{id}")
     @ApiOperation("根据id查询设备信息")
@@ -86,13 +88,47 @@ public class DeviceController {
         return deviceService.list(wp);
     }
 
+    @GetMapping("/deviceNameList/{searchName}")
+    @ApiOperation("查询设备名称列表")
+    public List<String> deviceNameList(@PathVariable String searchName) {
+        if (Objects.equals(searchName, "all")) {
+            return deviceService.list()
+                    .stream()
+                    .map(Device::getName)
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        return deviceService.list(Wrappers.lambdaQuery(new Device())
+                .like(Device::getName, searchName))
+                .stream()
+                .map(Device::getName)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     /**
      * 分页查询
      */
     @ApiOperation("分页查询设备")
     @PostMapping("/page")
     public IPage<DeviceVo> page(@NotNull @RequestBody Page<DeviceVo> page) {
-        return deviceService.queryDevicePage(page);
+        return deviceService.queryDevicePage(page, null, null);
+    }
+
+
+    @PostMapping("/search/{searchOption}/{searchValue}")
+    public IPage<DeviceVo> searchDevices(@NotNull @RequestBody Page<DeviceVo> page,
+                                         @PathVariable String searchOption,
+                                         @PathVariable String searchValue) throws ServiceException {
+        // 模糊查询
+        searchValue = SEARCH_STRING.concat(searchValue).concat(SEARCH_STRING);
+
+        if (Objects.equals(searchOption, "deviceName")) {
+            return deviceService.queryDevicePage(page, searchValue, null);
+        } else if (Objects.equals(searchOption, "deviceManager")) {
+            return deviceService.queryDevicePage(page, null, searchValue);
+        }
+        throw new ServiceException().setCode("403").setMessage("不支持的搜索选项");
     }
 
 
