@@ -15,6 +15,7 @@ import DeviceReservation from "../components/device/DeviceReservation";
 import ReservationHistory from "../components/device/ReservationHistory";
 import DeviceSearch from "../components/device/DeviceSearch";
 import CostSettlementManage from "../components/device/CostSettlementManage";
+import ResetPassword from "../components/user/ResetPassword";
 
 Vue.use(Router)
 
@@ -68,6 +69,14 @@ export default new Router({
           path: '/userCenter',
           name: 'UserCenter',
           component: UserCenter,
+          children: [{
+            path: '/resetPassword',
+            name: ResetPassword,
+            component: ResetPassword,
+            meta: {
+              requireAuth: true
+            }
+          }],
           meta: {
             requireAuth: true
           }

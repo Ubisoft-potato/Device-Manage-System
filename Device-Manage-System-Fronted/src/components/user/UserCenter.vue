@@ -7,14 +7,15 @@
           <i class="el-icon-user"/>
           <span slot="title">修改信息</span>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="2" @click="changPassword">
           <i class="el-icon-edit"/>
-          <span slot="title" @click="changePassword">修改密码</span>
+          <span slot="title">修改密码</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
     <el-main>
-      <UserDetail :user="user" v-show="showDetail"/>
+      <UserDetail :user="user" v-if="showDetail"/>
+      <router-view/>
     </el-main>
   </el-container>
 </template>
@@ -30,11 +31,13 @@
     data() {
       return {
         showDetail: false,
+        showResetPage: false,
         user: {}
       }
     },
     methods: {
       getUserInfo() {
+        this.$router.push("/userCenter")
         this.showDetail = true
         this.$axios.get("/users/info")
           .then(res => {
@@ -44,8 +47,9 @@
 
         })
       },
-      changePassword() {
+      changPassword() {
         this.showDetail = false
+        this.$router.push("/resetPassword")
       }
     }
   }

@@ -9,13 +9,18 @@ import org.cust.devicemanagesystem.exception.ServiceException;
 import org.cust.devicemanagesystem.mapstruct.UserConverter;
 import org.cust.devicemanagesystem.model.Authorities;
 import org.cust.devicemanagesystem.model.AuthorityCodeEnum;
+import org.cust.devicemanagesystem.model.PasswordReset;
 import org.cust.devicemanagesystem.model.Users;
 import org.cust.devicemanagesystem.service.IAuthoritiesService;
 import org.cust.devicemanagesystem.service.IUsersService;
 import org.cust.devicemanagesystem.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -48,6 +53,8 @@ public class UsersController {
     private IAuthoritiesService authoritiesService;
 
     private UserConverter userConverter;
+
+    private UserDetailsService userDetailsService;
 
     private PasswordEncoder passwordEncoder;
 
@@ -93,6 +100,20 @@ public class UsersController {
                 .map(authority -> new Authorities().setAuthority(authority).setUserId(user.getId()))
                 .collect(Collectors.toList()));
     }
+
+    @Transactional
+    @PutMapping("/changePassword")
+    public Boolean changePassword(@RequestBody @Validated PasswordReset passwordReset) throws ServiceException {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDetails userDetail = userDetailsService.loadUserByUsername(userName);
+        if (!passwordEncoder.matches(passwordReset.getOldPassword(), userDetail.getPassword())) {
+            throw new ServiceException().setCode("403").setMessage("原密码输入错误");
+        }
+        return usersService.update(Wrappers.lambdaUpdate(new Users())
+                .set(Users::getPassword, passwordEncoder.encode(passwordReset.getNewPassword()))
+                .eq(Users::getUsername, userName));
+    }
+
 
     /**
      * 添加管理员
@@ -195,10 +216,12 @@ public class UsersController {
     public UsersController(IUsersService usersService,
                            IAuthoritiesService authoritiesService,
                            UserConverter userConverter,
+                           @Qualifier("userDetailServiceImpl") UserDetailsService userDetailsService,
                            PasswordEncoder passwordEncoder) {
         this.usersService = usersService;
         this.authoritiesService = authoritiesService;
         this.userConverter = userConverter;
+        this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 }
