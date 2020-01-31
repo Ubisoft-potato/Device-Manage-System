@@ -50,7 +50,7 @@
         <template slot-scope="scope">
           <el-date-picker
             disabled
-            style="width: 155px"
+            style="width: 135px"
             v-model="scope.row.createTime"
             type="date">
           </el-date-picker>
