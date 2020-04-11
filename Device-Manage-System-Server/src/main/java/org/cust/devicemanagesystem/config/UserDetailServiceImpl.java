@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private IUsersService usersService;
+    private final IUsersService usersService;
 
-    private IAuthoritiesService authoritiesService;
+    private final IAuthoritiesService authoritiesService;
 
     @Override
     public UserDetails loadUserByUsername(@NotBlank String username) throws UsernameNotFoundException {
