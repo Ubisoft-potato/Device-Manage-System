@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  * @ClassName WebLogAspect
- * @Description TODO
+ * @Description 日志打印切面
  * @Author long
  * @Date 2020/4/14 15:18
  * @Version 1.0
