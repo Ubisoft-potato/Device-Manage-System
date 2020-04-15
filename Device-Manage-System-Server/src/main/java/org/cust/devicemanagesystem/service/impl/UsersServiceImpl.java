@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
-    private UsersMapper usersMapper;
+    private final UsersMapper usersMapper;
 
     @Override
     public IPage<Users> getUserPageByAuthority(IPage<Users> page, String authority) {

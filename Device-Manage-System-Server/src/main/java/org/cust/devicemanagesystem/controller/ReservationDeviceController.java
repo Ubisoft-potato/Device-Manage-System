@@ -36,13 +36,13 @@ import java.util.Objects;
 public class ReservationDeviceController {
 
 
-    private IReservationDeviceService reservationDeviceService;
+    private final IReservationDeviceService reservationDeviceService;
 
-    private ICostSettlementService costSettlementService;
+    private final ICostSettlementService costSettlementService;
 
-    private IDeviceService deviceService;
+    private final IDeviceService deviceService;
 
-    private IUsersService usersService;
+    private final IUsersService usersService;
 
     /**
      * 新增

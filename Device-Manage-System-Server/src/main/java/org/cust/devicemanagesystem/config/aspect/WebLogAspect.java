@@ -26,7 +26,9 @@ import java.util.Objects;
 public class WebLogAspect {
 
 
-    /** 换行符 */
+    /**
+     * 换行符
+     */
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @Pointcut("execution(public * org.cust.devicemanagesystem.controller.*.*(..))")
@@ -35,6 +37,7 @@ public class WebLogAspect {
 
     /**
      * 在切点之前织入
+     *
      * @param joinPoint
      * @throws Throwable
      */
@@ -60,6 +63,7 @@ public class WebLogAspect {
 
     /**
      * 在切点之后织入
+     *
      * @throws Throwable
      */
     @After("webLogPointCut()")
@@ -70,6 +74,7 @@ public class WebLogAspect {
 
     /**
      * 环绕
+     *
      * @param proceedingJoinPoint
      * @return
      * @throws Throwable
@@ -79,7 +84,7 @@ public class WebLogAspect {
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
         // 打印出参
-        log.info("Response Args  : {}", result.toString());
+        log.info("Response Args  : {}", new ObjectMapper().writeValueAsString(result));
         // 执行耗时
         log.info("Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
         return result;

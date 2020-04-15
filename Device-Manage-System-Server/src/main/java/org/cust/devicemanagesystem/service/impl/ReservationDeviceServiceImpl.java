@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservationDeviceServiceImpl extends ServiceImpl<ReservationDeviceMapper, ReservationDevice> implements IReservationDeviceService {
 
-    private ReservationDeviceMapper reservationDeviceMapper;
+    private final ReservationDeviceMapper reservationDeviceMapper;
 
 
     @Override

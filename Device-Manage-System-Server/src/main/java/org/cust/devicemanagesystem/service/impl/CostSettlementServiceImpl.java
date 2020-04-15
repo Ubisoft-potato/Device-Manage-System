@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class CostSettlementServiceImpl extends ServiceImpl<CostSettlementMapper, CostSettlement> implements ICostSettlementService {
 
 
-    private CostSettlementMapper CostSettlementMapper;
+    private final CostSettlementMapper CostSettlementMapper;
 
     @Override
     public IPage<CostSettlementVo> queryPage(IPage<CostSettlementVo> page, String userId) {

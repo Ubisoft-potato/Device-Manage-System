@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> implements IDeviceService {
 
-    private DeviceMapper deviceMapper;
+    private final DeviceMapper deviceMapper;
 
     @Override
     public DeviceVo getDeviceInfoById(String id) {

@@ -23,7 +23,7 @@ import java.util.List;
 public class AuthoritiesController {
 
 
-    private IAuthoritiesService authoritiesService;
+    private final IAuthoritiesService authoritiesService;
 
 
     /**

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/device")
 public class DeviceController {
 
-    private IDeviceService deviceService;
+    private final IDeviceService deviceService;
 
     private static final String SEARCH_STRING = "%";
 

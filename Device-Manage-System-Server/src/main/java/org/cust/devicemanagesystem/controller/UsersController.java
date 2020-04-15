@@ -48,15 +48,15 @@ import java.util.stream.Collectors;
 public class UsersController {
 
 
-    private IUsersService usersService;
+    private final IUsersService usersService;
 
-    private IAuthoritiesService authoritiesService;
+    private final IAuthoritiesService authoritiesService;
 
-    private UserConverter userConverter;
+    private final UserConverter userConverter;
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/info")
     @ApiOperation(value = "获取用户信息")
