@@ -25,11 +25,12 @@ import java.util.Objects;
 @Slf4j
 public class WebLogAspect {
 
-
     /**
      * 换行符
      */
     private static final String LINE_SEPARATOR = System.lineSeparator();
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Pointcut("execution(public * org.cust.devicemanagesystem.controller.*.*(..))")
     private void webLogPointCut() {
@@ -58,7 +59,7 @@ public class WebLogAspect {
         // 打印请求的 IP
         log.info("IP             : {}", request.getRemoteAddr());
         // 打印请求入参
-        log.info("Request Args   : {}", new ObjectMapper().writeValueAsString(joinPoint.getArgs()));
+        log.info("Request Args   : \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(joinPoint.getArgs()));
     }
 
     /**
@@ -84,7 +85,7 @@ public class WebLogAspect {
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
         // 打印出参
-        log.info("Response Args  : {}", new ObjectMapper().writeValueAsString(result));
+        log.info("Response Args  : \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
         // 执行耗时
         log.info("Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
         return result;
