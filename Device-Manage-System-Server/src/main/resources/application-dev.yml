@@ -2,4 +2,4 @@ spring:
   # mysql Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/device_manage_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://mysql.default:3306/device_manage_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
