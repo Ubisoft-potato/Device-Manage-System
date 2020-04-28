@@ -30,6 +30,13 @@ spec:
       containers:
         - name: device-system
           image: device-manage-system:dev
+          resources:
+            limits:
+              cpu: "1"
+              memory: "220Mi"
+            requests:
+              cpu: "0.5"
+              memory: "220Mi"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
