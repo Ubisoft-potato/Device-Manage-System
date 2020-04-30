@@ -1,0 +1,8 @@
+ ${AnsiColor.RED}_________           __            __________ .__                     __
+ ${AnsiColor.BLUE}\_   ___ \  ___.__.|  | _______   \______   \|  |   ___.__._____   _/  |_
+ ${AnsiColor.GREEN}/    \  \/ <   |  ||  |/ /\__  \   |    |  _/|  |  <   |  |\__  \  \   __\
+ ${AnsiColor.YELLOW}\     \____ \___  ||    <  / __ \_ |    |   \|  |__ \___  | / __ \_ |  |
+ ${AnsiColor.BRIGHT_MAGENTA} \______  / / ____||__|_ \(____  / |______  /|____/ / ____|(____  / |__|
+ ${AnsiColor.CYAN}        \/  \/          \/     \/         \/        \/          \/
+
+                        Springboot Version:   ${spring-boot.version}

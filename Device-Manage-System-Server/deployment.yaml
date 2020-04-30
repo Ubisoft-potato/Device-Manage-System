@@ -32,9 +32,9 @@ spec:
           image: device-manage-system:dev
           resources:
             limits:
-              memory: "300Mi"
+              memory: "350Mi"
             requests:
-              memory: "270Mi"
+              memory: "350Mi"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
