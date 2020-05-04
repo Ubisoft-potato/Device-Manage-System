@@ -142,7 +142,7 @@
           type: 'warning'
         }).then(() => {
           this.loading = true
-          this.$axios.delete("/costSettlement/deleteDevice/" + row.id)
+          this.$axios.delete("/costSettlement/delete/" + row.id)
             .then(res => {
               if (res.data === true) {
                 this.$message({
