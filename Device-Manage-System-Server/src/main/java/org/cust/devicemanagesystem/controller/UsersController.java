@@ -63,10 +63,10 @@ public class UsersController {
     public UserInfo getUserInfo(Authentication authentication) {
         log.info("current username: {}", authentication.getName());
         Users user = usersService.getOne(Wrappers
-                .lambdaQuery(new Users())
+                .lambdaQuery(Users.class)
                 .eq(Users::getUsername, authentication.getName()));
         List<String> authorities = authoritiesService.list(Wrappers
-                .lambdaQuery(new Authorities()).eq(Authorities::getUserId, user.getId()))
+                .lambdaQuery(Authorities.class).eq(Authorities::getUserId, user.getId()))
                 .stream()
                 .map(Authorities::getAuthority)
                 .collect(Collectors.toList());
@@ -91,7 +91,7 @@ public class UsersController {
     @ApiOperation(value = "用户注册")
     public boolean userRegister(@Validated @RequestBody UserInfo userInfo) throws ServiceException {
         Users user = userConverter.toUsers(userInfo);
-        if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, user.getUsername())))) {
+        if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(Users.class).eq(Users::getUsername, user.getUsername())))) {
             throw new ServiceException().setCode("400").setMessage("用户名已存在");
         }
         usersService.save(user.setPassword(passwordEncoder.encode(user.getPassword())));
@@ -109,7 +109,7 @@ public class UsersController {
         if (!passwordEncoder.matches(passwordReset.getOldPassword(), userDetail.getPassword())) {
             throw new ServiceException().setCode("403").setMessage("原密码输入错误");
         }
-        return usersService.update(Wrappers.lambdaUpdate(new Users())
+        return usersService.update(Wrappers.lambdaUpdate(Users.class)
                 .set(Users::getPassword, passwordEncoder.encode(passwordReset.getNewPassword()))
                 .eq(Users::getUsername, userName));
     }
@@ -127,7 +127,7 @@ public class UsersController {
     @ApiOperation(value = "添加管理员")
     public boolean addAdminUser(@Validated @RequestBody UserInfo userInfo) throws ServiceException {
         Users user = userConverter.toUsers(userInfo);
-        if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(new Users()).eq(Users::getUsername, user.getUsername())))) {
+        if (Objects.nonNull(usersService.getOne(Wrappers.lambdaQuery(Users.class).eq(Users::getUsername, user.getUsername())))) {
             throw new ServiceException().setCode("400").setMessage("用户名已存在");
         }
         usersService.save(user.setPassword(passwordEncoder.encode(user.getPassword())));
@@ -145,7 +145,7 @@ public class UsersController {
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除用户")
     public boolean delete(@NotBlank @PathVariable String id) {
-        if (authoritiesService.remove(Wrappers.lambdaQuery(new Authorities()).eq(Authorities::getUserId, id))) {
+        if (authoritiesService.remove(Wrappers.lambdaQuery(Authorities.class).eq(Authorities::getUserId, id))) {
             return usersService.removeById(id);
         }
         return false;
@@ -168,7 +168,7 @@ public class UsersController {
     @GetMapping("/list/{institute}")
     @ApiOperation("根据用户所在机构查询用户列表")
     public List<UserInfo> list(@NotBlank @PathVariable String institute) {
-        return usersService.list(Wrappers.lambdaQuery(new Users()).eq(Users::getInstitute, institute))
+        return usersService.list(Wrappers.lambdaQuery(Users.class).eq(Users::getInstitute, institute))
                 .stream()
                 .map(userConverter::toUserInfo)
                 .collect(Collectors.toList());
@@ -186,7 +186,7 @@ public class UsersController {
                     .distinct()
                     .collect(Collectors.toList());
         }
-        return usersService.list(Wrappers.lambdaQuery(new Users()).like(Users::getRealName, firstName))
+        return usersService.list(Wrappers.lambdaQuery(Users.class).like(Users::getRealName, firstName))
                 .stream()
                 .map(Users::getRealName)
                 .distinct()

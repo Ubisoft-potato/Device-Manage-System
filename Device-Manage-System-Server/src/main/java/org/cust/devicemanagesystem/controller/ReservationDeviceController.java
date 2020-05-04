@@ -72,10 +72,10 @@ public class ReservationDeviceController {
     public boolean updateById(@RequestBody ReservationDevice reservationDevice) {
         if (Objects.equals(reservationDevice.getState(), "CHECK_SUCCESS")) {
             //获取当前设备
-            Device device = deviceService.getOne(Wrappers.lambdaQuery(new Device())
+            Device device = deviceService.getOne(Wrappers.lambdaQuery(Device.class)
                     .eq(Device::getId, reservationDevice.getDeviceId()));
             //获取当前管理员
-            Users user = usersService.getOne(Wrappers.lambdaQuery(new Users())
+            Users user = usersService.getOne(Wrappers.lambdaQuery(Users.class)
                     .eq(Users::getId, device.getManager()));
             //计算当前租用时间
             Duration duration = Duration.between(reservationDevice.getStartTime(), reservationDevice.getStopTime());

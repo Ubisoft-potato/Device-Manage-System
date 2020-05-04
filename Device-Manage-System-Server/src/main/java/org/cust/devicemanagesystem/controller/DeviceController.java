@@ -50,7 +50,7 @@ public class DeviceController {
     @PostMapping("/addNewDevice")
     @ApiOperation("添加设备")
     public boolean save(@Validated @RequestBody Device device) throws ServiceException {
-        if (Objects.nonNull(deviceService.getOne(Wrappers.lambdaQuery(new Device()).eq(Device::getSerialNumber, device.getSerialNumber())))) {
+        if (Objects.nonNull(deviceService.getOne(Wrappers.lambdaQuery(Device.class).eq(Device::getSerialNumber, device.getSerialNumber())))) {
             throw new ServiceException().setMessage("序列号已存在，请重新输入").setCode("400");
         }
         return deviceService.save(device);
