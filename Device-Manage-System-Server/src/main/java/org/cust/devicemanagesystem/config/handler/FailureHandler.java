@@ -15,18 +15,19 @@ import java.io.PrintWriter;
 @Component
 public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+  private ResponseMessage message = new ResponseMessage().setMessage("账号或密码错误").setHttpCode("401");
 
-    private ResponseMessage message = new ResponseMessage().setMessage("账号或密码错误").setHttpCode("401");
-
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(message));
-        writer.flush();
-        writer.close();
-    }
+  @Override
+  public void onAuthenticationFailure(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+      throws IOException, ServletException {
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    PrintWriter writer = response.getWriter();
+    writer.write(objectMapper.writeValueAsString(message));
+    writer.flush();
+    writer.close();
+  }
 }

@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
-
 /**
- * <p>
  * 费用结算 前端控制器
- * </p>
  *
  * @author Long
  * @since 2020-01-16
@@ -28,60 +25,47 @@ import java.util.Objects;
 @RequestMapping("/costSettlement")
 public class CostSettlementController {
 
+  private final ICostSettlementService costSettlementService;
 
-    private final ICostSettlementService costSettlementService;
+  /** 新增 */
+  @PostMapping("/save")
+  public boolean save(@RequestBody @Validated CostSettlement costSettlement) {
+    return costSettlementService.save(costSettlement);
+  }
 
-    /**
-     * 新增
-     */
-    @PostMapping("/save")
-    public boolean save(@RequestBody @Validated CostSettlement costSettlement) {
-        return costSettlementService.save(costSettlement);
+  /** 通过id删除 */
+  @DeleteMapping("/delete/{id}")
+  public boolean delete(@PathVariable String id) {
+    return costSettlementService.removeById(id);
+  }
+
+  /** 修改 */
+  @PutMapping("/update")
+  public boolean updateById(@RequestBody @Validated CostSettlement costSettlement) {
+    return costSettlementService.updateById(costSettlement);
+  }
+
+  /** 查询列表 */
+  @GetMapping("/list")
+  public List<CostSettlement> list(CostSettlement costSettlement) {
+    QueryWrapper<CostSettlement> wp = new QueryWrapper<>();
+    // todo init wp
+    return costSettlementService.list(wp);
+  }
+
+  /** 分页查询 */
+  @PostMapping("/page/{userId}")
+  public IPage<CostSettlementVo> page(
+      @RequestBody Page<CostSettlementVo> page, @PathVariable String userId) {
+    if (Objects.equals(userId, "all")) {
+      // 管理员查询所有结算记录
+      return costSettlementService.queryPage(page, null);
     }
+    return costSettlementService.queryPage(page, userId);
+  }
 
-    /**
-     * 通过id删除
-     */
-    @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable String id) {
-        return costSettlementService.removeById(id);
-    }
-
-    /**
-     * 修改
-     */
-    @PutMapping("/update")
-    public boolean updateById(@RequestBody @Validated CostSettlement costSettlement) {
-        return costSettlementService.updateById(costSettlement);
-    }
-
-
-    /**
-     * 查询列表
-     */
-    @GetMapping("/list")
-    public List<CostSettlement> list(CostSettlement costSettlement) {
-        QueryWrapper<CostSettlement> wp = new QueryWrapper<>();
-        //todo init wp
-        return costSettlementService.list(wp);
-    }
-
-    /**
-     * 分页查询
-     */
-    @PostMapping("/page/{userId}")
-    public IPage<CostSettlementVo> page(@RequestBody Page<CostSettlementVo> page, @PathVariable String userId) {
-        if (Objects.equals(userId, "all")) {
-            //管理员查询所有结算记录
-            return costSettlementService.queryPage(page, null);
-        }
-        return costSettlementService.queryPage(page, userId);
-    }
-
-
-    @Autowired
-    public CostSettlementController(ICostSettlementService costSettlementService) {
-        this.costSettlementService = costSettlementService;
-    }
+  @Autowired
+  public CostSettlementController(ICostSettlementService costSettlementService) {
+    this.costSettlementService = costSettlementService;
+  }
 }
-

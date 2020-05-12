@@ -9,61 +9,29 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
-/**
- * create by: long
- * description:
- * create time: 2020/1/5 下午9:46
- */
+/** create by: long description: create time: 2020/1/5 下午9:46 */
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode
 public class UserInfo {
-    /**
-     * 主键
-     */
-    private String id;
-    /**
-     * 账号
-     */
-    @NotBlank
-    private String username;
-    /**
-     * 密码
-     */
-    @NotBlank
-    private String password;
-    /**
-     * 学号或工号
-     */
-    @NotBlank
-    private String workId;
-    /**
-     * 真实人名
-     */
-    @NotBlank
-    private String realName;
-    /**
-     * 电话
-     */
-    @NotBlank
-    private String telPhone;
-    /**
-     * 所属学院
-     */
-    @NotBlank
-    private String institute;
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-    /**
-     * 权限名称
-     */
-    @NotEmpty
-    private List<String> authorities;
-    /**
-     * 是否为超级管理员
-     */
-    private Boolean isSuperAdmin;
+  /** 主键 */
+  private String id;
+  /** 账号 */
+  @NotBlank private String username;
+  /** 密码 */
+  @NotBlank private String password;
+  /** 学号或工号 */
+  @NotBlank private String workId;
+  /** 真实人名 */
+  @NotBlank private String realName;
+  /** 电话 */
+  @NotBlank private String telPhone;
+  /** 所属学院 */
+  @NotBlank private String institute;
+  /** 创建时间 */
+  private LocalDateTime createTime;
+  /** 权限名称 */
+  @NotEmpty private List<String> authorities;
+  /** 是否为超级管理员 */
+  private Boolean isSuperAdmin;
 }

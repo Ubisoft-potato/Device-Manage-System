@@ -7,14 +7,11 @@ import org.cust.devicemanagesystem.service.IAuthoritiesService;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- *  服务实现类
- * </p>
+ * 服务实现类
  *
  * @author Long
  * @since 2020-01-04
  */
 @Service
-public class AuthoritiesServiceImpl extends ServiceImpl<AuthoritiesMapper, Authorities> implements IAuthoritiesService {
-
-}
+public class AuthoritiesServiceImpl extends ServiceImpl<AuthoritiesMapper, Authorities>
+    implements IAuthoritiesService {}

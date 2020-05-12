@@ -9,9 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * <p>
  * 用户
- * </p>
  *
  * @author Long
  * @since 2020-01-04
@@ -22,39 +20,23 @@ import java.time.LocalDateTime;
 @TableName("users")
 public class Users {
 
-    /**
-     * 主键
-     */
-    @TableId(type = IdType.ASSIGN_ID)
-    @NotNull
-    private Long id;
-    /**
-     * 账号
-     */
-    private String username;
-    /**
-     * 密码
-     */
-    private String password;
-    /**
-     * 学号或工号
-     */
-    private String workId;
-    /**
-     * 真实人名
-     */
-    private String realName;
-    /**
-     * 电话
-     */
-    private String telPhone;
-    /**
-     * 所属学院
-     */
-    private String institute;
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+  /** 主键 */
+  @TableId(type = IdType.ASSIGN_ID)
+  @NotNull
+  private Long id;
+  /** 账号 */
+  private String username;
+  /** 密码 */
+  private String password;
+  /** 学号或工号 */
+  private String workId;
+  /** 真实人名 */
+  private String realName;
+  /** 电话 */
+  private String telPhone;
+  /** 所属学院 */
+  private String institute;
+  /** 创建时间 */
+  @TableField(fill = FieldFill.INSERT)
+  private LocalDateTime createTime;
 }

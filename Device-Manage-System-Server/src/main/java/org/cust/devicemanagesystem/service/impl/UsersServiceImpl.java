@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
  * 服务实现类
- * </p>
  *
  * @author Long
  * @since 2020-01-04
@@ -19,15 +17,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
-    private final UsersMapper usersMapper;
+  private final UsersMapper usersMapper;
 
-    @Override
-    public IPage<Users> getUserPageByAuthority(IPage<Users> page, String authority) {
-        return usersMapper.selectUserPage(page, authority);
-    }
+  @Override
+  public IPage<Users> getUserPageByAuthority(IPage<Users> page, String authority) {
+    return usersMapper.selectUserPage(page, authority);
+  }
 
-    @Autowired
-    public UsersServiceImpl(UsersMapper usersMapper) {
-        this.usersMapper = usersMapper;
-    }
+  @Autowired
+  public UsersServiceImpl(UsersMapper usersMapper) {
+    this.usersMapper = usersMapper;
+  }
 }

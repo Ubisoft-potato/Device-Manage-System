@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
  * 设备信息 服务实现类
- * </p>
  *
  * @author Long
  * @since 2020-01-08
@@ -20,22 +18,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> implements IDeviceService {
 
-    private final DeviceMapper deviceMapper;
+  private final DeviceMapper deviceMapper;
 
-    @Override
-    public DeviceVo getDeviceInfoById(String id) {
-        return deviceMapper.getDeviceById(id);
-    }
+  @Override
+  public DeviceVo getDeviceInfoById(String id) {
+    return deviceMapper.getDeviceById(id);
+  }
 
-    @Override
-    public IPage<DeviceVo> queryDevicePage(IPage<DeviceVo> page,
-                                           String deviceName,
-                                           String deviceManager) {
-        return deviceMapper.getDeviceVoPage(page, deviceName, deviceManager);
-    }
+  @Override
+  public IPage<DeviceVo> queryDevicePage(
+      IPage<DeviceVo> page, String deviceName, String deviceManager) {
+    return deviceMapper.getDeviceVoPage(page, deviceName, deviceManager);
+  }
 
-    @Autowired
-    public DeviceServiceImpl(DeviceMapper deviceMapper) {
-        this.deviceMapper = deviceMapper;
-    }
+  @Autowired
+  public DeviceServiceImpl(DeviceMapper deviceMapper) {
+    this.deviceMapper = deviceMapper;
+  }
 }

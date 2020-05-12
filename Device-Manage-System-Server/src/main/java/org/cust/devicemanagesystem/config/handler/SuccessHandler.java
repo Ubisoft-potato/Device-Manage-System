@@ -17,18 +17,19 @@ import java.io.PrintWriter;
 @Slf4j
 public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+  private ResponseMessage message = new ResponseMessage().setMessage("登录成功").setHttpCode("200");
 
-    private ResponseMessage message = new ResponseMessage().setMessage("登录成功").setHttpCode("200");
-
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(message));
-        writer.flush();
-        writer.close();
-    }
+  @Override
+  public void onAuthenticationSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException, ServletException {
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    PrintWriter writer = response.getWriter();
+    writer.write(objectMapper.writeValueAsString(message));
+    writer.flush();
+    writer.close();
+  }
 }

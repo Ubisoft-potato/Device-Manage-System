@@ -24,42 +24,51 @@ import java.util.Arrays;
 @SpringBootTest(classes = DeviceManageSystemApplication.class)
 public class DeviceManageSystemApplicationTests {
 
+  @Autowired private PasswordEncoder PasswordEncoder;
 
-    @Autowired
-    private PasswordEncoder PasswordEncoder;
+  @Autowired private UsersMapper mapper;
 
-    @Autowired
-    private UsersMapper mapper;
+  @Autowired private DeviceMapper deviceMapper;
 
-    @Autowired
-    private DeviceMapper deviceMapper;
+  @Autowired private ReservationDeviceMapper reservationDeviceMapper;
 
-    @Autowired
-    private ReservationDeviceMapper reservationDeviceMapper;
+  @Autowired private IAuthoritiesService authoritiesService;
 
-    @Autowired
-    private IAuthoritiesService authoritiesService;
+  @Test
+  public void contextLoads() {
+    mapper.insert(
+        new Users()
+            .setInstitute("计算机科学技术学院")
+            .setPassword(PasswordEncoder.encode("123123"))
+            .setRealName("张三")
+            .setTelPhone("13542500614")
+            .setUsername("admin")
+            .setWorkId("1684316"));
+  }
 
-    @Test
-    public void contextLoads() {
-        mapper.insert(new Users()
-                .setInstitute("计算机科学技术学院")
-                .setPassword(PasswordEncoder.encode("123123"))
-                .setRealName("张三")
-                .setTelPhone("13542500614")
-                .setUsername("admin")
-                .setWorkId("1684316"));
-    }
+  @Test
+  public void addAuthorities() {
+    authoritiesService.saveBatch(
+        Arrays.asList(
+            new Authorities()
+                .setAuthority(AuthorityCodeEnum.SUPER_ADMIN.toString())
+                .setUserId(1213699955961700354L),
+            new Authorities()
+                .setAuthority(AuthorityCodeEnum.ADMIN.toString())
+                .setUserId(1213699955961700354L),
+            new Authorities()
+                .setAuthority(AuthorityCodeEnum.USER.toString())
+                .setUserId(1213699955961700354L)));
+  }
 
-    @Test
-    public void addAuthorities() {
-        authoritiesService.saveBatch(Arrays.asList(new Authorities().setAuthority(AuthorityCodeEnum.SUPER_ADMIN.toString()).setUserId(1213699955961700354L),
-                new Authorities().setAuthority(AuthorityCodeEnum.ADMIN.toString()).setUserId(1213699955961700354L),
-                new Authorities().setAuthority(AuthorityCodeEnum.USER.toString()).setUserId(1213699955961700354L)));
-    }
-
-    @Test
-    public void joinTest() {
-        System.out.println(reservationDeviceMapper.queryReservationPage(new Page<ReservationDeviceVo>().setCurrent(1).setSize(5),"CHECKING","1215085298749313026").getRecords());
-    }
+  @Test
+  public void joinTest() {
+    System.out.println(
+        reservationDeviceMapper
+            .queryReservationPage(
+                new Page<ReservationDeviceVo>().setCurrent(1).setSize(5),
+                "CHECKING",
+                "1215085298749313026")
+            .getRecords());
+  }
 }

@@ -7,9 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.cust.devicemanagesystem.model.Users;
 
 /**
- * <p>
  * Mapper 接口
- * </p>
  *
  * @author Long
  * @since 2020-01-04
@@ -17,20 +15,19 @@ import org.cust.devicemanagesystem.model.Users;
 @Mapper
 public interface UsersMapper extends BaseMapper<Users> {
 
-
-    @Select("SELECT \n" +
-            "   u.id,\n" +
-            "  u.username,\n" +
-            "  u.work_id,\n" +
-            "  u.real_name,\n" +
-            "  u.tel_phone,\n" +
-            "  u.institute,\n" +
-            "  u.create_time \n" +
-            "FROM\n" +
-            "  users u \n" +
-            "  JOIN authorities a \n" +
-            "    ON u.id = a.user_id \n" +
-            "    AND a.authority = #{authority}")
-    IPage<Users> selectUserPage(IPage<Users> page, String authority);
-
+  @Select(
+      "SELECT \n"
+          + "   u.id,\n"
+          + "  u.username,\n"
+          + "  u.work_id,\n"
+          + "  u.real_name,\n"
+          + "  u.tel_phone,\n"
+          + "  u.institute,\n"
+          + "  u.create_time \n"
+          + "FROM\n"
+          + "  users u \n"
+          + "  JOIN authorities a \n"
+          + "    ON u.id = a.user_id \n"
+          + "    AND a.authority = #{authority}")
+  IPage<Users> selectUserPage(IPage<Users> page, String authority);
 }

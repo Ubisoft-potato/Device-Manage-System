@@ -12,84 +12,83 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
-/**
- * @ClassName WebLogAspect
- * @Description 日志打印切面
- * @Author long
- * @Date 2020/4/14 15:18
- * @Version 1.0
- **/
-
+/** @ClassName WebLogAspect @Description 日志打印切面 @Author long @Date 2020/4/14 15:18 @Version 1.0 */
 @Component
 @Aspect
 @Slf4j
 public class WebLogAspect {
 
-    /**
-     * 换行符
-     */
-    private static final String LINE_SEPARATOR = System.lineSeparator();
+  /** 换行符 */
+  private static final String LINE_SEPARATOR = System.lineSeparator();
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Pointcut("execution(public * org.cust.devicemanagesystem.controller.*.*(..))")
-    private void webLogPointCut() {
-    }
+  @Pointcut("execution(public * org.cust.devicemanagesystem.controller.*.*(..))")
+  private void webLogPointCut() {}
 
-    /**
-     * 在切点之前织入
-     *
-     * @param joinPoint
-     * @throws Throwable
-     */
-    @Before("webLogPointCut()")
-    public void doBefore(JoinPoint joinPoint) throws Throwable {
-        // 开始打印请求日志
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
+  /**
+   * 在切点之前织入
+   *
+   * @param joinPoint
+   * @throws Throwable
+   */
+  @Before("webLogPointCut()")
+  public void doBefore(JoinPoint joinPoint) throws Throwable {
+    // 开始打印请求日志
+    ServletRequestAttributes attributes =
+        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
-        // 打印请求相关参数
-        log.info("========================================== Start ==========================================");
-        // 打印请求 url
-        log.info("URL            : {}", request.getRequestURL().toString());
-        // 打印 Http method
-        log.info("HTTP Method    : {}", request.getMethod());
-        // 打印调用 controller 的全路径以及执行方法
-        log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-        // 打印请求的 IP
-        log.info("IP             : {}", request.getRemoteAddr());
-        // 打印请求入参
-        log.info("Request Args   : \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(joinPoint.getArgs()));
-    }
+    // 打印请求相关参数
+    log.info(
+        "========================================== Start ==========================================");
+    // 打印请求 url
+    log.info("URL            : {}", request.getRequestURL().toString());
+    // 打印 Http method
+    log.info("HTTP Method    : {}", request.getMethod());
+    // 打印调用 controller 的全路径以及执行方法
+    log.info(
+        "Class Method   : {}.{}",
+        joinPoint.getSignature().getDeclaringTypeName(),
+        joinPoint.getSignature().getName());
+    // 打印请求的 IP
+    log.info("IP             : {}", request.getRemoteAddr());
+    // 打印请求入参
+    log.info(
+        "Request Args   : \n{}",
+        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(joinPoint.getArgs()));
+  }
 
-    /**
-     * 在切点之后织入
-     *
-     * @throws Throwable
-     */
-    @After("webLogPointCut()")
-    public void doAfter() throws Throwable {
-        // 接口结束后换行，方便分割查看
-        log.info("=========================================== End ===========================================" + LINE_SEPARATOR);
-    }
+  /**
+   * 在切点之后织入
+   *
+   * @throws Throwable
+   */
+  @After("webLogPointCut()")
+  public void doAfter() throws Throwable {
+    // 接口结束后换行，方便分割查看
+    log.info(
+        "=========================================== End ==========================================="
+            + LINE_SEPARATOR);
+  }
 
-    /**
-     * 环绕
-     *
-     * @param proceedingJoinPoint
-     * @return
-     * @throws Throwable
-     */
-    @Around("webLogPointCut()")
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long startTime = System.currentTimeMillis();
-        Object result = proceedingJoinPoint.proceed();
-        // 打印出参
-        log.info("Response Args  : \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
-        // 执行耗时
-        log.info("Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
-        return result;
-    }
-
-
+  /**
+   * 环绕
+   *
+   * @param proceedingJoinPoint
+   * @return
+   * @throws Throwable
+   */
+  @Around("webLogPointCut()")
+  public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    long startTime = System.currentTimeMillis();
+    Object result = proceedingJoinPoint.proceed();
+    // 打印出参
+    log.info(
+        "Response Args  : \n{}",
+        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
+    // 执行耗时
+    log.info("Time-Consuming : {} ms", System.currentTimeMillis() - startTime);
+    return result;
+  }
 }

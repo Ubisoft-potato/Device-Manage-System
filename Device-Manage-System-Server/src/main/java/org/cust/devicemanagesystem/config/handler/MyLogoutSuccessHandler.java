@@ -15,17 +15,19 @@ import java.io.PrintWriter;
 @Component
 public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    private ResponseMessage message = new ResponseMessage().setMessage("登出成功").setHttpCode("200");
+  private ResponseMessage message = new ResponseMessage().setMessage("登出成功").setHttpCode("200");
 
-    @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(message));
-        writer.flush();
-        writer.close();
-    }
+  @Override
+  public void onLogoutSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException, ServletException {
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    PrintWriter writer = response.getWriter();
+    writer.write(objectMapper.writeValueAsString(message));
+    writer.flush();
+    writer.close();
+  }
 }

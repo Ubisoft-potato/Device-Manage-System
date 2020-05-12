@@ -6,15 +6,13 @@ import org.cust.devicemanagesystem.model.ReservationDevice;
 import org.cust.devicemanagesystem.vo.ReservationDeviceVo;
 
 /**
- * <p>
  * 预约登记 服务类
- * </p>
  *
  * @author Long
  * @since 2020-01-08
  */
 public interface IReservationDeviceService extends IService<ReservationDevice> {
 
-    IPage<ReservationDeviceVo> queryReservationPage(IPage<ReservationDeviceVo> page,String state,String userId);
-
+  IPage<ReservationDeviceVo> queryReservationPage(
+      IPage<ReservationDeviceVo> page, String state, String userId);
 }

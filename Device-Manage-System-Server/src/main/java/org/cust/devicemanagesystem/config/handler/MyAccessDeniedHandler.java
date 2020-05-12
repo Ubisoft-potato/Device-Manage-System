@@ -14,17 +14,21 @@ import java.io.PrintWriter;
 
 @Component
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
-    private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    private ResponseMessage message = new ResponseMessage().setMessage("无权限").setHttpCode("403");
+  private ResponseMessage message = new ResponseMessage().setMessage("无权限").setHttpCode("403");
 
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(message));
-        writer.flush();
-        writer.close();
-    }
+  @Override
+  public void handle(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AccessDeniedException accessDeniedException)
+      throws IOException, ServletException {
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    PrintWriter writer = response.getWriter();
+    writer.write(objectMapper.writeValueAsString(message));
+    writer.flush();
+    writer.close();
+  }
 }
