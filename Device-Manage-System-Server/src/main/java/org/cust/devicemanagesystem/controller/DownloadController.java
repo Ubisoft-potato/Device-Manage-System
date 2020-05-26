@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import java.io.FileInputStream;
 
 /**
- * @ClassName Downloadcontroller @Description TODO @Author long @Date 2020/5/26 9:01 @Version 1.0
+ * @ClassName DownloadController @Description 异步文件下载 @Author long @Date 2020/5/26 9:01 @Version 1.0
  */
 @RestController
 @Slf4j
